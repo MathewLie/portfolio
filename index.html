@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Creator Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #a78bfa;
+            --secondary: #fbbf24;
+            --accent: #fb7185;
+            --bg-main: #fefefe;
+            --bg-card: #f8f9fa;
+            --text-dark: #1e293b;
+            --text-medium: #475569;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --shadow: rgba(100, 116, 139, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #fefefe 0%, #f9fafb 100%);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(254, 254, 254, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1.25rem 0;
+            border-bottom: 2px solid var(--border);
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            list-style: none;
+            flex-wrap: wrap;
+            padding: 0 1rem;
+        }
+
+        nav a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            letter-spacing: 0.3px;
+            transition: all 0.3s;
+            position: relative;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s;
+            border-radius: 2px;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Sections */
+        section {
+            min-height: 100vh;
+            padding: 7rem 2rem 5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+            letter-spacing: -1px;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            color: var(--text-dark);
+            text-align: center;
+            letter-spacing: -0.5px;
+        }
+
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        #about {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #fefefe 0%, #f3f4f6 100%);
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .hero-content p {
+            font-size: 1.35rem;
+            color: var(--text-medium);
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+            font-weight: 400;
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 600;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .social-link:hover {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-color: transparent;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(167, 139, 250, 0.3);
+        }
+
+        /* Portfolio Section */
+        #portfolio {
+            background: var(--bg-main);
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .category-card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.4s;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 12px 40px rgba(167, 139, 250, 0.25);
+        }
+
+        .carousel {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 16px;
+            margin-top: 1.5rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--border);
+        }
+
+        .carousel-placeholder {
+            color: var(--text-light);
+            text-align: center;
+            padding: 2rem;
+            font-weight: 500;
+        }
+
+        /* Contact Section */
+        #contact {
+            background: linear-gradient(135deg, #fefefe 0%, #f3f4f6 100%);
+        }
+
+        .workflow {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin: 3rem 0;
+        }
+
+        .workflow-step {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 20px var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .workflow-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(167, 139, 250, 0.2);
+        }
+
+        .workflow-step::before {
+            content: attr(data-step);
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 4px 15px rgba(167, 139, 250, 0.4);
+        }
+
+        .workflow-step h3 {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .workflow-step p {
+            color: var(--text-medium);
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .contact-info {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .contact-info p {
+            font-size: 1.25rem;
+            color: var(--text-medium);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .contact-info a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .contact-info a:hover {
+            color: var(--accent);
+        }
+
+        /* Reviews Section */
+        #reviews {
+            background: var(--bg-main);
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .review-card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(167, 139, 250, 0.2);
+        }
+
+        .review-stars {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .review-text {
+            color: var(--text-medium);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .review-author {
+            font-weight: 600;
+            color: var(--primary);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Decorative Elements */
+        .section-decoration {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            margin: 0 auto 3rem;
+            border-radius: 2px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1.5rem;
+                font-size: 0.95rem;
+            }
+
+            section {
+                padding: 5rem 1.25rem 3rem;
+            }
+
+            .category-grid,
+            .workflow,
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .social-links {
+                gap: 1rem;
+            }
+
+            .social-link {
+                padding: 0.85rem 1.5rem;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+        </ul>
+    </nav>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="hero-content fade-in">
+            <h1>Content Creator & UGC Specialist</h1>
+            <p>
+                Crafting compelling stories and authentic content that connects brands with their audience. 
+                Specializing in short-form video content across multiple platforms and industries.
+            </p>
+            <div class="social-links">
+                <a href="https://instagram.com/yourusername" class="social-link" target="_blank">
+                    📷 Instagram
+                </a>
+                <a href="https://linkedin.com/in/yourusername" class="social-link" target="_blank">
+                    💼 LinkedIn
+                </a>
+                <a href="https://tiktok.com/@yourusername" class="social-link" target="_blank">
+                    🎵 TikTok
+                </a>
+                <a href="mailto:your.email@example.com" class="social-link">
+                    ✉️ Email
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio">
+        <h2>Content Portfolio</h2>
+        <div class="section-decoration"></div>
+        <div class="category-grid">
+            <div class="category-card fade-in">
+                <h3>🏠 Travel & Lifestyle</h3>
+                <div class="carousel">
+                    <div class="carousel-placeholder">
+                        Your Airbnb, travel, and home content videos will appear here
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card fade-in">
+                <h3>📊 Paid Ad Testing</h3>
+                <div class="carousel">
+                    <div class="carousel-placeholder">
+                        Your paid ad testing content will appear here
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card fade-in">
+                <h3>🍕 Food & Dining</h3>
+                <div class="carousel">
+                    <div class="carousel-placeholder">
+                        Your food content will appear here
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card fade-in">
+                <h3>✨ Beauty & Fashion</h3>
+                <div class="carousel">
+                    <div class="carousel-placeholder">
+                        Your skincare, beauty, and fashion content will appear here
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card fade-in">
+                <h3>💰 Finance</h3>
+                <div class="carousel">
+                    <div class="carousel-placeholder">
+                        Your finance content will appear here
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card fade-in">
+                <h3>💪 Fitness</h3>
+                <div class="carousel">
+                    <div class="carousel-placeholder">
+                        Your fitness content will appear here
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card fade-in">
+                <h3>📱 Tech & Apps</h3>
+                <div class="carousel">
+                    <div class="carousel-placeholder">
+                        Your tech and application content will appear here
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card fade-in">
+                <h3>🎵 Music</h3>
+                <div class="carousel">
+                    <div class="carousel-placeholder">
+                        Your music content will appear here
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card fade-in">
+                <h3>🚀 Startups</h3>
+                <div class="carousel">
+                    <div class="carousel-placeholder">
+                        Your startup content will appear here
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Let's Work Together</h2>
+        <div class="section-decoration"></div>
+        <div class="contact-info">
+            <p>Ready to create something amazing?</p>
+            <a href="mailto:your.email@example.com">your.email@example.com</a>
+        </div>
+
+        <h3 style="text-align: center; margin-bottom: 3rem; color: var(--text-dark);">My Workflow</h3>
+        <div class="workflow">
+            <div class="workflow-step" data-step="1">
+                <h3>Strategy</h3>
+                <p>Discussing ideas, expectations, and logistics through email or phone call</p>
+            </div>
+            <div class="workflow-step" data-step="2">
+                <h3>Creating</h3>
+                <p>Scripting and editing the first video for your approval</p>
+            </div>
+            <div class="workflow-step" data-step="3">
+                <h3>Edits</h3>
+                <p>Incorporating your feedback and refinements</p>
+            </div>
+            <div class="workflow-step" data-step="4">
+                <h3>Delivery</h3>
+                <p>Final content delivered within 5-7 days</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews">
+        <h2>Client Testimonials</h2>
+        <div class="section-decoration"></div>
+        <div class="reviews-grid">
+            <div class="review-card fade-in">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">
+                    "Exceptional work! The content exceeded our expectations and drove real engagement. Professional, creative, and delivered on time."
+                </p>
+                <p class="review-author">— Sample Client 1</p>
+            </div>
+
+            <div class="review-card fade-in">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">
+                    "Amazing collaboration from start to finish. The videos perfectly captured our brand voice and resulted in increased conversions."
+                </p>
+                <p class="review-author">— Sample Client 2</p>
+            </div>
+
+            <div class="review-card fade-in">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">
+                    "Highly recommend! Creative, responsive, and delivers high-quality content consistently. A true professional."
+                </p>
+                <p class="review-author">— Sample Client 3</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scroll with offset for fixed nav
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(40px)';
+            el.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
