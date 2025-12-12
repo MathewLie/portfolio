@@ -13,9 +13,9 @@
         }
 
         :root {
-            --primary: #a78bfa;
+            --primary: #3b82f6;
             --secondary: #fbbf24;
-            --accent: #fb7185;
+            --accent: #60a5fa;
             --bg-main: #fefefe;
             --bg-card: #f8f9fa;
             --text-dark: #1e293b;
@@ -25,12 +25,90 @@
             --shadow: rgba(100, 116, 139, 0.1);
         }
 
+        body.dark-mode {
+            --bg-main: #000000;
+            --bg-card: #0a0a0a;
+            --text-dark: #ffffff;
+            --text-medium: #e2e8f0;
+            --text-light: #94a3b8;
+            --border: #1e293b;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #fefefe 0%, #f9fafb 100%);
+            background: var(--bg-main);
             color: var(--text-dark);
             overflow-x: hidden;
             scroll-behavior: smooth;
+            position: relative;
+            transition: background 0.3s ease, color 0.3s ease;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Animated Background with Wave Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+                radial-gradient(ellipse at 80% 80%, rgba(96, 165, 250, 0.15) 0%, transparent 40%),
+                radial-gradient(ellipse at 40% 20%, rgba(59, 130, 246, 0.12) 0%, transparent 40%),
+                radial-gradient(ellipse at 60% 70%, rgba(96, 165, 250, 0.1) 0%, transparent 35%);
+            animation: wave 25s ease-in-out infinite;
+            transition: opacity 0.3s ease;
+        }
+
+        body.dark-mode::before {
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(59, 130, 246, 0.25) 0%, transparent 40%),
+                radial-gradient(ellipse at 80% 80%, rgba(96, 165, 250, 0.25) 0%, transparent 40%),
+                radial-gradient(ellipse at 40% 20%, rgba(59, 130, 246, 0.2) 0%, transparent 40%),
+                radial-gradient(ellipse at 60% 70%, rgba(96, 165, 250, 0.15) 0%, transparent 35%);
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 60% 30%, rgba(96, 165, 250, 0.12) 0%, transparent 40%),
+                radial-gradient(ellipse at 90% 40%, rgba(59, 130, 246, 0.1) 0%, transparent 35%),
+                radial-gradient(ellipse at 30% 60%, rgba(59, 130, 246, 0.08) 0%, transparent 30%);
+            animation: wave 20s ease-in-out infinite reverse;
+            transition: opacity 0.3s ease;
+        }
+
+        body.dark-mode::after {
+            background: 
+                radial-gradient(ellipse at 60% 30%, rgba(96, 165, 250, 0.2) 0%, transparent 40%),
+                radial-gradient(ellipse at 90% 40%, rgba(59, 130, 246, 0.18) 0%, transparent 35%),
+                radial-gradient(ellipse at 30% 60%, rgba(59, 130, 246, 0.15) 0%, transparent 30%);
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(3%, -3%) rotate(1deg);
+            }
+            50% {
+                transform: translate(-2%, 2%) rotate(-1deg);
+            }
+            75% {
+                transform: translate(2%, 3%) rotate(0.5deg);
+            }
         }
 
         /* Navigation */
@@ -44,6 +122,41 @@
             padding: 1.25rem 0;
             border-bottom: 2px solid var(--border);
             box-shadow: 0 4px 20px var(--shadow);
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode nav {
+            background: rgba(10, 10, 10, 0.95);
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 1.5rem;
+            right: 2rem;
+            z-index: 1001;
+            background: white;
+            border: 2px solid var(--primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            background: #0a0a0a;
+            border-color: var(--accent);
         }
 
         nav ul {
@@ -92,6 +205,148 @@
             padding: 7rem 2rem 5rem;
             max-width: 1400px;
             margin: 0 auto;
+            position: relative;
+            width: 100%;
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            animation: rise 12s infinite ease-in-out;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.25), rgba(96, 165, 250, 0.15), transparent);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.4);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        body.dark-mode .particle {
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.4), rgba(96, 165, 250, 0.25), transparent);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Squirtle Easter Egg */
+        .squirtle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            z-index: 999;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            animation: swim 8s ease-in-out infinite;
+            filter: drop-shadow(0 4px 10px rgba(59, 130, 246, 0.3));
+        }
+
+        .squirtle:hover {
+            opacity: 1;
+            transform: scale(1.2) rotate(5deg);
+            filter: drop-shadow(0 6px 15px rgba(59, 130, 246, 0.5));
+        }
+
+        @keyframes swim {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            25% {
+                transform: translateY(-15px) translateX(10px);
+            }
+            50% {
+                transform: translateY(-5px) translateX(-5px);
+            }
+            75% {
+                transform: translateY(-20px) translateX(8px);
+            }
+        }
+
+        .particle:nth-child(1) {
+            width: 60px;
+            height: 60px;
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 10s;
+        }
+
+        .particle:nth-child(2) {
+            width: 80px;
+            height: 80px;
+            left: 25%;
+            animation-delay: 2s;
+            animation-duration: 13s;
+        }
+
+        .particle:nth-child(3) {
+            width: 50px;
+            height: 50px;
+            left: 50%;
+            animation-delay: 5s;
+            animation-duration: 11s;
+        }
+
+        .particle:nth-child(4) {
+            width: 70px;
+            height: 70px;
+            left: 70%;
+            animation-delay: 1s;
+            animation-duration: 14s;
+        }
+
+        .particle:nth-child(5) {
+            width: 90px;
+            height: 90px;
+            left: 85%;
+            animation-delay: 4s;
+            animation-duration: 12s;
+        }
+
+        .particle:nth-child(6) {
+            width: 55px;
+            height: 55px;
+            left: 40%;
+            animation-delay: 6s;
+            animation-duration: 13s;
+        }
+
+        .particle:nth-child(7) {
+            width: 65px;
+            height: 65px;
+            left: 60%;
+            animation-delay: 3s;
+            animation-duration: 11s;
+        }
+
+        .particle:nth-child(8) {
+            width: 75px;
+            height: 75px;
+            left: 15%;
+            animation-delay: 7s;
+            animation-duration: 12s;
+        }
+
+        @keyframes rise {
+            0% {
+                bottom: -120px;
+                opacity: 0;
+                transform: translateX(0) scale(0.5);
+            }
+            10% {
+                opacity: 0.7;
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateX(50px) scale(1);
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                bottom: 110%;
+                opacity: 0;
+                transform: translateX(-30px) scale(0.8);
+            }
         }
 
         h1 {
@@ -132,7 +387,8 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: linear-gradient(135deg, #fefefe 0%, #f3f4f6 100%);
+            background: transparent;
+            transition: background 0.3s ease;
         }
 
         .hero-content {
@@ -145,6 +401,89 @@
             margin-bottom: 2.5rem;
             line-height: 1.8;
             font-weight: 400;
+        }
+
+        /* Polaroid Container */
+        .polaroid-stack {
+            position: relative;
+            width: 280px;
+            height: 300px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Polaroid Headshot */
+        .polaroid {
+            position: absolute;
+            width: 200px;
+            background: white;
+            padding: 12px 12px 40px 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        body.dark-mode .polaroid {
+            background: #f8f9fa;
+        }
+
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.1) translateY(-10px) !important;
+            box-shadow: 0 15px 50px rgba(59, 130, 246, 0.4);
+            z-index: 10 !important;
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            border: 1px solid #e5e5e5;
+        }
+
+        .polaroid::after {
+            position: absolute;
+            bottom: 8px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* Individual Polaroid Positions */
+        .polaroid-1 {
+            top: 0;
+            left: 0;
+            transform: rotate(-8deg);
+            z-index: 1;
+        }
+
+        .polaroid-1::after {
+            content: 'Creating ✨';
+        }
+
+        .polaroid-2 {
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) rotate(2deg);
+            z-index: 2;
+        }
+
+        .polaroid-2::after {
+            content: 'Vibing 🎨';
+        }
+
+        .polaroid-3 {
+            top: 0;
+            right: 0;
+            transform: rotate(6deg);
+            z-index: 1;
+        }
+
+        .polaroid-3::after {
+            content: 'Behind Scenes 📸';
         }
 
         /* Social Links */
@@ -171,17 +510,22 @@
             box-shadow: 0 4px 15px var(--shadow);
         }
 
+        body.dark-mode .social-link {
+            background: var(--bg-card);
+        }
+
         .social-link:hover {
             background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
             border-color: transparent;
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(167, 139, 250, 0.3);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
         }
 
         /* Portfolio Section */
         #portfolio {
-            background: var(--bg-main);
+            background: transparent;
+            transition: background 0.3s ease;
         }
 
         .category-grid {
@@ -200,24 +544,108 @@
             box-shadow: 0 4px 20px var(--shadow);
         }
 
+        body.dark-mode .category-card {
+            background: var(--bg-card);
+        }
+
         .category-card:hover {
             transform: translateY(-8px);
             border-color: var(--primary);
-            box-shadow: 0 12px 40px rgba(167, 139, 250, 0.25);
+            box-shadow: 0 12px 40px rgba(59, 130, 246, 0.25);
         }
 
         .carousel {
             position: relative;
             width: 100%;
-            aspect-ratio: 16/9;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            aspect-ratio: 9/16;
+            background: var(--bg-card);
             border-radius: 16px;
             margin-top: 1.5rem;
             overflow: hidden;
+            border: 2px solid var(--border);
+            transition: background 0.3s ease;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .carousel-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .carousel-video.active {
+            display: block;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .carousel-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid var(--border);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        body.dark-mode .carousel-btn {
+            background: rgba(10, 10, 10, 0.9);
+        }
+
+        .carousel-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 75px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: 2px solid var(--primary);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        body.dark-mode .carousel-dot {
+            background: rgba(10, 10, 10, 0.5);
+        }
+
+        .carousel-dot.active {
+            background: var(--primary);
+            transform: scale(1.2);
         }
 
         .carousel-placeholder {
@@ -225,11 +653,102 @@
             text-align: center;
             padding: 2rem;
             font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .video-counter {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-dark);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 10;
+            border: 2px solid var(--primary);
+        }
+
+        body.dark-mode .video-counter {
+            background: rgba(10, 10, 10, 0.9);
+            color: var(--text-dark);
+        }
+
+        /* Video Stats Section */
+        .video-stats {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: none;
+        }
+
+        .video-stats.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .video-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .video-description {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-medium);
+            line-height: 1.6;
+            font-size: 0.95rem;
         }
 
         /* Contact Section */
         #contact {
-            background: linear-gradient(135deg, #fefefe 0%, #f3f4f6 100%);
+            background: transparent;
+            transition: background 0.3s ease;
         }
 
         .workflow {
@@ -250,9 +769,13 @@
             transition: all 0.3s;
         }
 
+        body.dark-mode .workflow-step {
+            background: var(--bg-card);
+        }
+
         .workflow-step:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(167, 139, 250, 0.2);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.2);
         }
 
         .workflow-step::before {
@@ -272,7 +795,7 @@
             font-weight: 700;
             font-size: 1.25rem;
             font-family: 'Poppins', sans-serif;
-            box-shadow: 0 4px 15px rgba(167, 139, 250, 0.4);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
         }
 
         .workflow-step h3 {
@@ -294,6 +817,10 @@
             text-align: center;
             margin-bottom: 4rem;
             box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        body.dark-mode .contact-info {
+            background: var(--bg-card);
         }
 
         .contact-info p {
@@ -318,7 +845,8 @@
 
         /* Reviews Section */
         #reviews {
-            background: var(--bg-main);
+            background: transparent;
+            transition: background 0.3s ease;
         }
 
         .reviews-grid {
@@ -337,9 +865,13 @@
             transition: all 0.3s;
         }
 
+        body.dark-mode .review-card {
+            background: var(--bg-card);
+        }
+
         .review-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(167, 139, 250, 0.2);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.2);
         }
 
         .review-stars {
@@ -424,6 +956,16 @@
     </style>
 </head>
 <body>
+    <!-- Squirtle Easter Egg -->
+    <div class="squirtle" title="Squirtle says hi! 🌊">
+        <img src="images/squirtle.png" alt="Squirtle" style="width: 100%; height: 100%; object-fit: contain;">
+    </div>
+
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+        🌙
+    </button>
+
     <!-- Navigation -->
     <nav>
         <ul>
@@ -436,20 +978,40 @@
 
     <!-- About Section -->
     <section id="about">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
         <div class="hero-content fade-in">
-            <h1>Content Creator & UGC Specialist</h1>
+            <div class="polaroid-stack">
+                <div class="polaroid polaroid-1">
+                    <img src="images/headshot1.jpg" alt="Creating Content">
+                </div>
+                <div class="polaroid polaroid-2">
+                    <img src="images/headshot2.jpg" alt="In Action">
+                </div>
+                <div class="polaroid polaroid-3">
+                    <img src="images/headshot3.jpg" alt="Behind the Scenes">
+                </div>
+            </div>
+            <h1>Matthew Li</h1>
+            <h2>Content Creator Portfolio</h2>
             <p>
                 Crafting compelling stories and authentic content that connects brands with their audience. 
                 Specializing in short-form video content across multiple platforms and industries.
             </p>
             <div class="social-links">
-                <a href="https://instagram.com/yourusername" class="social-link" target="_blank">
+                <a href="https://www.instagram.com/mattgx.li/" class="social-link" target="_blank">
                     📷 Instagram
                 </a>
-                <a href="https://linkedin.com/in/yourusername" class="social-link" target="_blank">
+                <a href="https://www.linkedin.com/in/matthew-li733/" class="social-link" target="_blank">
                     💼 LinkedIn
                 </a>
-                <a href="https://tiktok.com/@yourusername" class="social-link" target="_blank">
+                <a href="https://www.tiktok.com/@mattgx.li" class="social-link" target="_blank">
                     🎵 TikTok
                 </a>
                 <a href="mailto:your.email@example.com" class="social-link">
@@ -461,124 +1023,128 @@
 
     <!-- Portfolio Section -->
     <section id="portfolio">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
         <h2>Content Portfolio</h2>
         <div class="section-decoration"></div>
         <div class="category-grid">
             <div class="category-card fade-in">
                 <h3>🏠 Travel & Lifestyle</h3>
-                <div class="carousel">
-                    <div class="carousel-placeholder">
-                        Your Airbnb, travel, and home content videos will appear here
+                <div class="carousel" data-category="travel">
+                    <div class="carousel-container">
+                        <div class="carousel-placeholder">
+                            Add your videos to /videos/travel/ folder
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="category-card fade-in">
                 <h3>📊 Paid Ad Testing</h3>
-                <div class="carousel">
-                    <div class="carousel-placeholder">
-                        Your paid ad testing content will appear here
+                <div class="carousel" data-category="ads">
+                    <div class="carousel-container">
+                        <div class="carousel-placeholder">
+                            Add your videos to /videos/ads/ folder
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="category-card fade-in">
                 <h3>🍕 Food & Dining</h3>
-                <div class="carousel">
-                    <div class="carousel-placeholder">
-                        Your food content will appear here
+                <div class="carousel" data-category="food">
+                    <div class="carousel-container">
+                        <div class="carousel-placeholder">
+                            Add your videos to /videos/food/ folder
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="category-card fade-in">
                 <h3>✨ Beauty & Fashion</h3>
-                <div class="carousel">
-                    <div class="carousel-placeholder">
-                        Your skincare, beauty, and fashion content will appear here
+                <div class="carousel" data-category="beauty">
+                    <div class="carousel-container">
+                        <div class="carousel-placeholder">
+                            Add your videos to /videos/beauty/ folder
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="category-card fade-in">
                 <h3>💰 Finance</h3>
-                <div class="carousel">
-                    <div class="carousel-placeholder">
-                        Your finance content will appear here
+                <div class="carousel" data-category="finance">
+                    <div class="carousel-container">
+                        <div class="carousel-placeholder">
+                            Add your videos to /videos/finance/ folder
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="category-card fade-in">
                 <h3>💪 Fitness</h3>
-                <div class="carousel">
-                    <div class="carousel-placeholder">
-                        Your fitness content will appear here
+                <div class="carousel" data-category="fitness">
+                    <div class="carousel-container">
+                        <div class="carousel-placeholder">
+                            Add your videos to /videos/fitness/ folder
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="category-card fade-in">
                 <h3>📱 Tech & Apps</h3>
-                <div class="carousel">
-                    <div class="carousel-placeholder">
-                        Your tech and application content will appear here
+                <div class="carousel" data-category="tech">
+                    <div class="carousel-container">
+                        <div class="carousel-placeholder">
+                            Add your videos to /videos/tech/ folder
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="category-card fade-in">
                 <h3>🎵 Music</h3>
-                <div class="carousel">
-                    <div class="carousel-placeholder">
-                        Your music content will appear here
+                <div class="carousel" data-category="music">
+                    <div class="carousel-container">
+                        <div class="carousel-placeholder">
+                            Add your videos to /videos/music/ folder
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="category-card fade-in">
                 <h3>🚀 Startups</h3>
-                <div class="carousel">
-                    <div class="carousel-placeholder">
-                        Your startup content will appear here
+                <div class="carousel" data-category="startups">
+                    <div class="carousel-container">
+                        <div class="carousel-placeholder">
+                            Add your videos to /videos/startups/ folder
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <h2>Let's Work Together</h2>
-        <div class="section-decoration"></div>
-        <div class="contact-info">
-            <p>Ready to create something amazing?</p>
-            <a href="mailto:your.email@example.com">your.email@example.com</a>
-        </div>
-
-        <h3 style="text-align: center; margin-bottom: 3rem; color: var(--text-dark);">My Workflow</h3>
-        <div class="workflow">
-            <div class="workflow-step" data-step="1">
-                <h3>Strategy</h3>
-                <p>Discussing ideas, expectations, and logistics through email or phone call</p>
-            </div>
-            <div class="workflow-step" data-step="2">
-                <h3>Creating</h3>
-                <p>Scripting and editing the first video for your approval</p>
-            </div>
-            <div class="workflow-step" data-step="3">
-                <h3>Edits</h3>
-                <p>Incorporating your feedback and refinements</p>
-            </div>
-            <div class="workflow-step" data-step="4">
-                <h3>Delivery</h3>
-                <p>Final content delivered within 5-7 days</p>
-            </div>
-        </div>
-    </section>
-
     <!-- Reviews Section -->
     <section id="reviews">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
         <h2>Client Testimonials</h2>
         <div class="section-decoration"></div>
         <div class="reviews-grid">
@@ -608,7 +1174,317 @@
         </div>
     </section>
 
+      <!-- Contact Section -->
+    <section id="contact">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <h2>Let's Work Together</h2>
+        <div class="section-decoration"></div>
+        <div class="contact-info">
+            <p>Ready to create something amazing?</p>
+            <a href="mailto:your.email@example.com">your.email@example.com</a>
+        </div>
+
+        <h3 style="text-align: center; margin-bottom: 3rem; color: var(--text-dark);">My Workflow</h3>
+        <div class="workflow">
+            <div class="workflow-step" data-step="1">
+                <h3>Strategy</h3>
+                <p>Discussing ideas, expectations, and logistics through email or phone call</p>
+            </div>
+            <div class="workflow-step" data-step="2">
+                <h3>Creating</h3>
+                <p>Scripting and editing the first video for your approval</p>
+            </div>
+            <div class="workflow-step" data-step="3">
+                <h3>Edits</h3>
+                <p>Incorporating your feedback and refinements</p>
+            </div>
+            <div class="workflow-step" data-step="4">
+                <h3>Delivery</h3>
+                <p>Final content delivered within 5-7 days</p>
+            </div>
+        </div>
+    </section>
+
+
     <script>
+        // Squirtle Easter Egg Click
+        const squirtle = document.querySelector('.squirtle');
+        let squirtleClicks = 0;
+        
+        squirtle.addEventListener('click', () => {
+            squirtleClicks++;
+            
+            if (squirtleClicks === 1) {
+                squirtle.style.animation = 'none';
+                setTimeout(() => {
+                    squirtle.style.animation = 'swim 3s ease-in-out infinite';
+                }, 10);
+            }
+            
+            if (squirtleClicks === 3) {
+                // Create water splash effect
+                const splash = document.createElement('div');
+                splash.textContent = '💧';
+                splash.style.position = 'fixed';
+                splash.style.bottom = '100px';
+                splash.style.right = '40px';
+                splash.style.fontSize = '3rem';
+                splash.style.animation = 'splashUp 1s ease-out forwards';
+                splash.style.zIndex = '1000';
+                document.body.appendChild(splash);
+                
+                setTimeout(() => splash.remove(), 1000);
+                squirtleClicks = 0;
+            }
+        });
+        
+        // Splash animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes splashUp {
+                0% {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY(-100px) scale(2);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        // Check for saved dark mode preference
+        const darkMode = localStorage.getItem('darkMode');
+        if (darkMode === 'enabled') {
+            body.classList.add('dark-mode');
+            darkModeToggle.textContent = '☀️';
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                darkModeToggle.textContent = '☀️';
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                darkModeToggle.textContent = '🌙';
+                localStorage.setItem('darkMode', null);
+            }
+        });
+
+        // Video carousel configuration
+        const videoData = {
+            travel: [
+                {
+                    file: 'video1.mp4',
+                    title: 'Luxury Airbnb Tour - Miami Beach',
+                    views: '125K',
+                    impressions: '450K',
+                    engagement: '8.2%',
+                    likes: '10.2K',
+                    description: 'Showcasing a stunning beachfront property with modern amenities and ocean views.'
+                },
+                {
+                    file: 'video2.mp4',
+                    title: 'Hotel Room Review - NYC',
+                    views: '89K',
+                    impressions: '320K',
+                    engagement: '6.8%',
+                    likes: '6.1K',
+                    description: 'Detailed walkthrough of a boutique hotel in Manhattan.'
+                }
+            ],
+            ads: [
+                {
+                    file: 'video1.mp4',
+                    title: 'Product Demo - Smart Watch',
+                    views: '250K',
+                    impressions: '890K',
+                    engagement: '12.5%',
+                    likes: '31.2K',
+                    description: 'High-performing ad showcasing product features and benefits.'
+                }
+            ],
+            food: [
+                {
+                    file: 'video1.mp4',
+                    title: 'Restaurant Review',
+                    views: '95K',
+                    impressions: '340K',
+                    engagement: '7.3%',
+                    likes: '6.9K',
+                    description: 'Authentic dining experience at a local favorite.'
+                }
+            ],
+            beauty: [],
+            finance: [],
+            fitness: [],
+            tech: [],
+            music: [],
+            startups: [{
+                    file: 'FavorIt.mp4',
+                    title: 'Restaurant Review',
+                    views: '95K',
+                    impressions: '340K',
+                    engagement: '7.3%',
+                    likes: '6.9K',
+                    description: 'Authentic dining experience at a local favorite.'
+                }]
+        };
+
+        // Initialize carousels
+        function initCarousels() {
+            document.querySelectorAll('.carousel').forEach(carousel => {
+                const category = carousel.dataset.category;
+                const videos = videoData[category];
+                const container = carousel.querySelector('.carousel-container');
+                const card = carousel.closest('.category-card');
+                
+                if (!videos || videos.length === 0) return;
+
+                let currentIndex = 0;
+                
+                // Create video elements
+                container.innerHTML = videos.map((video, index) => `
+                    <video class="carousel-video ${index === 0 ? 'active' : ''}" 
+                           playsinline 
+                           loop 
+                           muted>
+                        <source src="videos/${category}/${video.file}" type="video/mp4">
+                    </video>
+                `).join('');
+
+                // Create stats section
+                const statsContainer = document.createElement('div');
+                statsContainer.className = 'video-stats-container';
+                statsContainer.innerHTML = videos.map((video, index) => `
+                    <div class="video-stats ${index === 0 ? 'active' : ''}" data-index="${index}">
+                        <div class="video-title">${video.title}</div>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-value">${video.views}</span>
+                                <span class="stat-label">Views</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">${video.impressions}</span>
+                                <span class="stat-label">Impressions</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">${video.engagement}</span>
+                                <span class="stat-label">Engagement</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">${video.likes}</span>
+                                <span class="stat-label">Likes</span>
+                            </div>
+                        </div>
+                        <div class="video-description">${video.description}</div>
+                    </div>
+                `).join('');
+                
+                card.appendChild(statsContainer);
+
+                // Add counter
+                const counter = document.createElement('div');
+                counter.className = 'video-counter';
+                counter.textContent = `1 / ${videos.length}`;
+                carousel.appendChild(counter);
+
+                // Add navigation dots
+                if (videos.length > 1) {
+                    const dotsContainer = document.createElement('div');
+                    dotsContainer.className = 'carousel-dots';
+                    dotsContainer.innerHTML = videos.map((_, index) => 
+                        `<div class="carousel-dot ${index === 0 ? 'active' : ''}" data-index="${index}"></div>`
+                    ).join('');
+                    carousel.appendChild(dotsContainer);
+
+                    // Add prev/next buttons
+                    const controls = document.createElement('div');
+                    controls.className = 'carousel-controls';
+                    controls.innerHTML = `
+                        <button class="carousel-btn prev">‹</button>
+                        <button class="carousel-btn next">›</button>
+                    `;
+                    carousel.appendChild(controls);
+                }
+
+                const videoElements = container.querySelectorAll('.carousel-video');
+                const statsElements = statsContainer.querySelectorAll('.video-stats');
+                const dots = carousel.querySelectorAll('.carousel-dot');
+                const prevBtn = carousel.querySelector('.prev');
+                const nextBtn = carousel.querySelector('.next');
+
+                function updateCarousel(index) {
+                    videoElements.forEach((video, i) => {
+                        video.classList.toggle('active', i === index);
+                        if (i === index) {
+                            video.play().catch(() => {});
+                        } else {
+                            video.pause();
+                            video.currentTime = 0;
+                        }
+                    });
+                    
+                    statsElements.forEach((stat, i) => {
+                        stat.classList.toggle('active', i === index);
+                    });
+                    
+                    dots.forEach((dot, i) => {
+                        dot.classList.toggle('active', i === index);
+                    });
+                    
+                    counter.textContent = `${index + 1} / ${videos.length}`;
+                    currentIndex = index;
+                }
+
+                // Event listeners
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', () => {
+                        const newIndex = (currentIndex - 1 + videos.length) % videos.length;
+                        updateCarousel(newIndex);
+                    });
+                }
+
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => {
+                        const newIndex = (currentIndex + 1) % videos.length;
+                        updateCarousel(newIndex);
+                    });
+                }
+
+                dots.forEach(dot => {
+                    dot.addEventListener('click', () => {
+                        updateCarousel(parseInt(dot.dataset.index));
+                    });
+                });
+
+                // Auto-play first video
+                if (videoElements[0]) {
+                    videoElements[0].play().catch(() => {});
+                }
+            });
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initCarousels);
+        } else {
+            initCarousels();
+        }
+
         // Smooth scroll with offset for fixed nav
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
