@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Content Creator Portfolio</title>
+    <title>Matthew Li - Content Creator Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico"> 
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
     <style>
         * {
             margin: 0;
@@ -745,6 +749,30 @@
             font-size: 0.95rem;
         }
 
+        .video-link {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .video-link a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .video-link a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
         /* Contact Section */
         #contact {
             background: transparent;
@@ -1284,79 +1312,92 @@
 
         // Video carousel configuration
         const videoData = {
-            travel: [
+            // travel: [
+            //     {
+            //         file: 'video1.mp4',
+            //         title: 'Luxury Airbnb Tour - Miami Beach',
+            //         views: '125K',
+            //         impressions: '450K',
+            //         engagement: '8.2%',
+            //         likes: '10.2K',
+            //         description: 'Showcasing a stunning beachfront property with modern amenities and ocean views.'
+            //     },
+            //     {
+            //         file: 'video2.mp4',
+            //         title: 'Hotel Room Review - NYC',
+            //         views: '89K',
+            //         impressions: '320K',
+            //         engagement: '6.8%',
+            //         likes: '6.1K',
+            //         description: 'Detailed walkthrough of a boutique hotel in Manhattan.'
+            //     }
+            // ],
+            // ads: [
+            //     {
+            //         file: 'video1.mp4',
+            //         title: 'Product Demo - Smart Watch',
+            //         views: '250K',
+            //         impressions: '890K',
+            //         engagement: '12.5%',
+            //         likes: '31.2K',
+            //         description: 'High-performing ad showcasing product features and benefits.'
+            //     }
+            // ],
+            // food: [
+            //     {
+            //         file: 'video1.mp4',
+            //         title: 'Restaurant Review',
+            //         views: '95K',
+            //         impressions: '340K',
+            //         engagement: '7.3%',
+            //         likes: '6.9K',
+            //         description: 'Authentic dining experience at a local favorite.'
+            //     }
+            // ],
+            // beauty: [],
+            // finance: [],
+            // fitness: [],
+            profdev: [
                 {
-                    file: 'video1.mp4',
-                    title: 'Luxury Airbnb Tour - Miami Beach',
-                    views: '125K',
-                    impressions: '450K',
-                    engagement: '8.2%',
-                    likes: '10.2K',
-                    description: 'Showcasing a stunning beachfront property with modern amenities and ocean views.'
-                },
-                {
-                    file: 'video2.mp4',
-                    title: 'Hotel Room Review - NYC',
-                    views: '89K',
-                    impressions: '320K',
-                    engagement: '6.8%',
-                    likes: '6.1K',
-                    description: 'Detailed walkthrough of a boutique hotel in Manhattan.'
-                }
-            ],
-            ads: [
-                {
-                    file: 'video1.mp4',
-                    title: 'Product Demo - Smart Watch',
-                    views: '250K',
-                    impressions: '890K',
-                    engagement: '12.5%',
-                    likes: '31.2K',
-                    description: 'High-performing ad showcasing product features and benefits.'
-                }
-            ],
-            food: [
-                {
-                    file: 'video1.mp4',
-                    title: 'Restaurant Review',
-                    views: '95K',
-                    impressions: '340K',
-                    engagement: '7.3%',
-                    likes: '6.9K',
-                    description: 'Authentic dining experience at a local favorite.'
-                }
-            ],
-            beauty: [],
-            finance: [],
-            fitness: [],
-            profdev: [{
-                    file: 'LinkedinSilence.mov',
-                    title: 'Restaurant Review',
-                    views: '95K',
-                    impressions: '340K',
-                    engagement: '7.3%',
-                    likes: '6.9K',
-                    description: 'Authentic dining experience at a local favorite.'
-                    },
-                    {
                     file: 'LinkedInZoom.mp4',
-                    title: 'Restaurant Review',
-                    views: '95K',
-                    impressions: '340K',
-                    engagement: '7.3%',
-                    likes: '6.9K',
-                    description: 'Authentic dining experience at a local favorite.'
-                }
+                    title: 'Workplace Tips - Zoom Out',
+                    views: '25K',
+                    impressions: '25K',
+                    engagement: '1.5%',
+                    likes: '323',
+                    description: 'Tips for interns to succeed in their work environment.',
+                    link:'https://www.linkedin.com/feed/update/urn:li:activity:7349059863555031045/?originTrackingId=oNObNCySRGidTe9MzNgEuQ%3D%3D'
+                },{
+                    file: 'LinkedinSilence.mov',
+                    title: 'Workplace Tips - Speaking Out',
+                    views: '3.5K',
+                    impressions: '3.5K',
+                    engagement: '2.9%',
+                    likes: '72',
+                    description: 'Tips for interns to stand out in their work environment.',
+                    link: 'https://www.linkedin.com/feed/update/urn:li:activity:7351241773987360769/?originTrackingId=6nGUjyg3RhCq3gHtAQo17Q%3D%3D'
+                    }
                 ],
-            music: [],
+            music: [{
+                    file: 'Suno Demo 1.mov',
+                    title: 'Suno Demo',
+                    views: 'TBD',
+                    impressions: 'TBD',
+                    engagement: 'TBD',
+                    likes: 'TBD',
+                    description: 'Initial demo video for Suno AI, targeting student users.',
+                    link: 'https://drive.google.com/file/d/1e2_ygTmKvUzKO8H7kyhQyzgOTrsK41ol/view?usp=sharing'
+
+                }],
             startups: [{
                     file: 'FavorIt.mp4',
-                    title: 'Restaurant Review',
-                    views: '95K',
-                    impressions: '340K',
-                    engagement: '7.3%',
-                    likes: '6.9K',
-                    description: 'Authentic dining experience at a local favorite.'
+                    title: 'Favorit Carpool Feature Ad',
+                    views: '84K',
+                    impressions: '84K',
+                    engagement: '4.8%',
+                    likes: '2.6K',
+                    description: 'First ad for FavorIt app, promoting carpool feature to college students.',
+                    link:'https://www.instagram.com/p/DOKNV6bj4c_/'
                 }]
         };
 
@@ -1407,6 +1448,7 @@
                             </div>
                         </div>
                         <div class="video-description">${video.description}</div>
+${video.link ? `<div class="video-link"><a href="${video.link}" target="_blank">🔗 View Original Post</a></div>` : ''}
                     </div>
                 `).join('');
                 
