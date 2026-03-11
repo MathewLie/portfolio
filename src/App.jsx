@@ -203,31 +203,67 @@ function DarkToggle({ dark, setDark, t }) {
 
 // ─── Navbar ──────────────────────────────────────────────────────────────────────
 function Navbar({ t }) {
+  const [menuOpen, setMenuOpen] = useState(false);
   const links = [["About","#about"],["Why Me","#why-me"],["Portfolio","#portfolio"],["Contact","#contact"],["Reviews","#reviews"]];
+  
   return (
-    <nav style={{ position: "fixed", top: 20, left: 0, right: 0, zIndex: 100,
-      display: "flex", justifyContent: "center", padding: "0 90px" }}>
-      <div className={t.glass} style={{ borderRadius: 999, padding: "8px 8px",
-        display: "flex", alignItems: "center", gap: 2 }}>
-        {links.map(([label, href]) => (
-          <a key={label} href={href} className="font-body"
-            style={{ color: t.label, fontSize: 13, fontWeight: 500, padding: "8px 18px",
-              borderRadius: 999, textDecoration: "none", letterSpacing: "0.02em", transition: "color 0.25s" }}
-            onMouseEnter={e => (e.target.style.color = t.text)}
-            onMouseLeave={e => (e.target.style.color = t.label)}
-          >{label}</a>
-        ))}
-        <a href="mailto:matthewgx.li@gmail.com" className="font-body"
-          style={{ marginLeft: 8, background: t.btnPrimary, color: t.btnPrimaryC,
-            fontSize: 13, fontWeight: 600, padding: "8px 20px", borderRadius: 999,
-            textDecoration: "none", display: "flex", alignItems: "center", gap: 6, transition: "opacity 0.3s" }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = "0.82")}
-          onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
-        >
-          Work With Me <ArrowUpRight size={12} />
-        </a>
-      </div>
-    </nav>
+    <>
+      {/* Desktop Nav */}
+      <nav style={{ position: "fixed", top: 20, left: 0, right: 0, zIndex: 100,
+        display: "flex", justifyContent: "center", padding: "0 24px" }}>
+        <div className={t.glass} style={{ borderRadius: 999, padding: "8px 8px",
+          display: "flex", alignItems: "center", gap: 2, maxWidth: "100%", overflowX: "auto" }}>
+          {links.map(([label, href]) => (
+            <a key={label} href={href} className="font-body"
+              style={{ color: t.label, fontSize: 13, fontWeight: 500, padding: "8px 14px",
+                borderRadius: 999, textDecoration: "none", letterSpacing: "0.02em", transition: "color 0.25s",
+                whiteSpace: "nowrap", flexShrink: 0 }}
+              onMouseEnter={e => (e.target.style.color = t.text)}
+              onMouseLeave={e => (e.target.style.color = t.label)}
+            >{label}</a>
+          ))}
+          <a href="mailto:matthewgx.li@gmail.com" className="font-body"
+            style={{ marginLeft: 8, background: t.btnPrimary, color: t.btnPrimaryC,
+              fontSize: 13, fontWeight: 600, padding: "8px 16px", borderRadius: 999,
+              textDecoration: "none", display: "flex", alignItems: "center", gap: 6, 
+              transition: "opacity 0.3s", whiteSpace: "nowrap", flexShrink: 0 }}
+            onMouseEnter={e => (e.currentTarget.style.opacity = "0.82")}
+            onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+          >
+            Work With Me <ArrowUpRight size={12} />
+          </a>
+        </div>
+      </nav>
+
+      {/* Mobile-only simplified style */}
+      <style>{`
+        @media (max-width: 768px) {
+          nav > div {
+            padding: 6px 6px !important;
+            gap: 1px !important;
+          }
+          nav a {
+            font-size: 11px !important;
+            padding: 6px 10px !important;
+          }
+          nav a[href^="mailto"] {
+            margin-left: 4px !important;
+            padding: 6px 12px !important;
+          }
+          nav a[href^="mailto"] svg {
+            display: none !important;
+          }
+        }
+        @media (max-width: 480px) {
+          nav a span:last-child {
+            display: none;
+          }
+          nav a[href^="mailto"]::after {
+            content: "Email";
+          }
+        }
+      `}</style>
+    </>
   );
 }
 
