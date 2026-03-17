@@ -178,14 +178,17 @@ function Reveal({ children, delay = 0, style = {} }) {
 }
 
 // ─── Dark Mode Toggle ────────────────────────────────────────────────────────────
-function DarkToggle({ dark, setDark, t }) {
+function DarkToggle({ dark, setDark, t, inline = false }) {
   return (
     <motion.button
       onClick={() => setDark(!dark)} whileTap={{ scale: 0.9 }}
       className={`font-body ${t.glass}`}
-      style={{ width: 44, height: 44, borderRadius: "50%", border: "none", cursor: "pointer",
+      style={{
+        width: 36, height: 36, borderRadius: "50%", border: "none", cursor: "pointer",
         display: "flex", alignItems: "center", justifyContent: "center",
-        position: "fixed", top: 22, right: 24, zIndex: 200 }}
+        flexShrink: 0,
+        ...(inline ? {} : { position: "fixed", top: 22, right: 24, zIndex: 200 }),
+      }}
       title={dark ? "Light mode" : "Dark mode"}
     >
       <AnimatePresence mode="wait" initial={false}>
@@ -194,7 +197,7 @@ function DarkToggle({ dark, setDark, t }) {
           exit={{ rotate: 25, opacity: 0 }} transition={{ duration: 0.22 }}
           style={{ display: "flex" }}
         >
-          {dark ? <Sun size={17} color="rgba(255,255,255,0.75)" /> : <Moon size={17} color={t.textMid} />}
+          {dark ? <Sun size={15} color="rgba(255,255,255,0.75)" /> : <Moon size={15} color={t.textMid} />}
         </motion.span>
       </AnimatePresence>
     </motion.button>
@@ -202,10 +205,9 @@ function DarkToggle({ dark, setDark, t }) {
 }
 
 // ─── Navbar ──────────────────────────────────────────────────────────────────────
-function Navbar({ t }) {
-  const [menuOpen, setMenuOpen] = useState(false);
+function Navbar({ t, dark, setDark }) {
   const links = [["About","#about"],["Why Me","#why-me"],["Portfolio","#portfolio"],["Contact","#contact"],["Reviews","#reviews"]];
-  
+
   return (
     <>
       {/* Desktop Nav */}
@@ -225,13 +227,16 @@ function Navbar({ t }) {
           <a href="mailto:matthewgx.li@gmail.com" className="font-body"
             style={{ marginLeft: 8, background: t.btnPrimary, color: t.btnPrimaryC,
               fontSize: 13, fontWeight: 600, padding: "8px 16px", borderRadius: 999,
-              textDecoration: "none", display: "flex", alignItems: "center", gap: 6, 
+              textDecoration: "none", display: "flex", alignItems: "center", gap: 6,
               transition: "opacity 0.3s", whiteSpace: "nowrap", flexShrink: 0 }}
             onMouseEnter={e => (e.currentTarget.style.opacity = "0.82")}
             onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
           >
             Work With Me <ArrowUpRight size={12} />
           </a>
+          <div style={{ marginLeft: 6, flexShrink: 0 }}>
+            <DarkToggle dark={dark} setDark={setDark} t={t} inline />
+          </div>
         </div>
       </nav>
 
@@ -725,8 +730,7 @@ export default function App() {
         }} />
       )}
 
-      <DarkToggle dark={dark} setDark={setDark} t={t} />
-      <Navbar t={t} />
+      <Navbar t={t} dark={dark} setDark={setDark} />
 
       <main style={{ position: "relative", zIndex: 1 }}>
         <About    t={t} />
