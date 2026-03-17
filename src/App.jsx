@@ -358,9 +358,8 @@ function WhyMe({ t }) {
   */
 
   const paras = [
-  "I know what it takes to hold attention — because I've built an audience by being authentic, not performative.",
-  "As a CS student moving into product management, I approach content like a product: understand the user, deliver value, drive action. That's why my content performs.",
-  "I don't just execute your brief — I think through what your audience actually needs to hear, then say it in a way they'll remember and act on.",
+  "As a Asian American CS student and Product Manager, I approach content like a product: understand the user, deliver value, drive action.",
+  "I don't just execute your brief - I think through what your audience actually needs to hear, then say it in a way they'll remember and act on.",
   ];
 
   return (
@@ -392,7 +391,7 @@ function WhyMe({ t }) {
             <div style={{ borderTop: `1px solid ${t.divider}`, paddingTop: 28, marginTop: 28 }}>
               <p className="font-heading" style={{ fontStyle: "italic", color: t.text,
                 fontSize: 22, lineHeight: 1.55 }}>
-                Your brand doesn't need more content. It needs content that earns attention and converts. That's what I build.
+                Your brand doesn't need more content. It needs content that converts actual users.
               </p>
             </div>
           </div>
