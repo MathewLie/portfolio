@@ -1,80 +1,28 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Instagram, Linkedin, Music2, Mail, ChevronLeft, ChevronRight,
-  ExternalLink, Star, ArrowUpRight, Play, Sparkles,
+  Instagram, Linkedin, Music2, Mail,
+  ExternalLink, ArrowUpRight, Play, Sparkles, MapPin,
   Zap, Target, Megaphone, Package, Sun, Moon
 } from "lucide-react";
 
 // ─── Global Styles ──────────────────────────────────────────────────────────────
 const globalStyles = `
-  @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Barlow:wght@300;400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; overflow-x: hidden; }
-  body { font-family: 'Barlow', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-  .font-heading { font-family: 'Instrument Serif', serif; }
-  .font-body    { font-family: 'Barlow', sans-serif; }
-
+  body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  .font-heading { font-family: 'Inter', sans-serif; }
+  .font-body    { font-family: 'Inter', sans-serif; }
 
   ::-webkit-scrollbar { width: 0; }
   body { scrollbar-width: none; -ms-overflow-style: none; }
 
-
-  /* Light glass */
-  .lg-light {
-    background: rgba(255,255,255,0.65);
-    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 2px 20px rgba(100,116,139,0.08), inset 0 1px 1px rgba(255,255,255,0.95);
-    position: relative; overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-  }
-  .lg-light::before {
-    content:''; position:absolute; inset:0; border-radius:inherit; padding:1px;
-    background: linear-gradient(180deg,rgba(255,255,255,0.95) 0%,rgba(255,255,255,0.35) 25%,rgba(255,255,255,0.08) 50%,rgba(255,255,255,0.35) 75%,rgba(255,255,255,0.9) 100%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
-  }
-  .lgs-light {
-    background: rgba(255,255,255,0.75);
-    backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-    box-shadow: 0 8px 40px rgba(100,116,139,0.11), inset 0 1px 0 rgba(255,255,255,1);
-    position: relative; overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-  }
-  .lgs-light::before {
-    content:''; position:absolute; inset:0; border-radius:inherit; padding:1.2px;
-    background: linear-gradient(180deg,rgba(255,255,255,1) 0%,rgba(255,255,255,0.5) 20%,rgba(255,255,255,0.08) 50%,rgba(255,255,255,0.5) 80%,rgba(255,255,255,1) 100%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
-  }
-
-  /* Dark glass */
-  .lg-dark {
-    background: rgba(255,255,255,0.015);
-    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    box-shadow: inset 0 1px 1px rgba(255,255,255,0.1), 0 4px 24px rgba(0,0,0,0.2);
-    position: relative; overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-  }
-  .lg-dark::before {
-    content:''; position:absolute; inset:0; border-radius:inherit; padding:1px;
-    background: linear-gradient(180deg,rgba(255,255,255,0.3) 0%,rgba(255,255,255,0.05) 20%,rgba(255,255,255,0) 50%,rgba(255,255,255,0.05) 80%,rgba(255,255,255,0.2) 100%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
-  }
-  .lgs-dark {
-    background: rgba(255,255,255,0.02);
-    backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.2);
-    position: relative; overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-  }
-  .lgs-dark::before {
-    content:''; position:absolute; inset:0; border-radius:inherit; padding:1.2px;
-    background: linear-gradient(180deg,rgba(255,255,255,0.6) 0%,rgba(255,255,255,0.15) 20%,rgba(255,255,255,0) 50%,rgba(255,255,255,0.15) 80%,rgba(255,255,255,0.4) 100%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
+  .panel {
+    border-width: 1px;
+    border-style: solid;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
   }
 
   .video-el { width:100%; height:100%; object-fit:cover; display:block; }
@@ -85,69 +33,40 @@ const ease = [0.16, 1, 0.3, 1];
 // ─── Theme Tokens ────────────────────────────────────────────────────────────────
 const THEMES = {
   light: {
-    bg:          "#f8fafc",
-    text:        "#1e293b",
-    textMid:     "#475569",
-    textSoft:    "#94a3b8",
-    label:       "rgba(71,85,105,0.55)",
-    labelUp:     "rgba(71,85,105,0.42)",
-    glass:       "lg-light",
-    glassStrong: "lgs-light",
-    divider:     "rgba(203,213,225,0.55)",
-    statBg:      "rgba(241,245,249,0.9)",
-    statBorder:  "rgba(203,213,225,0.45)",
-    orbA:        "59,130,246",
-    orbB:        "148,163,184",
-    orbO:        0.08,
-    btnPrimary:  "#1e293b",
-    btnPrimaryC: "white",
-    socialC:     "#475569",
-    socialCH:    "#1e293b",
-    starC:       "rgba(234,179,8,0.9)",
-    quoteC:      "#475569",
-    footerC:     "#94a3b8",
-    playC:       "#1e293b",
-    iconC:       "rgba(71,85,105,0.5)",
-    ghostNum:    "rgba(203,213,225,0.6)",
+    bg:          "#fafafa",
+    bgAlt:       "#f0f0ee",
+    ink:         "#0a0a0a",
+    inkMid:      "#525252",
+    inkSoft:     "#a3a3a0",
+    line:        "#e2e2df",
+    invert:      "#0a0a0a",
+    invertText:  "#fafafa",
+    placeholderBg:   "#e8e8e5",
+    placeholderText: "#8f8f8a",
+    quoteC:      "#525252",
+    footerC:     "#a3a3a0",
+    accent:      "#a3672b",
+    accentSoft:  "rgba(163,103,43,0.07)",
   },
   dark: {
-    bg:          "#02040A",
-    text:        "white",
-    textMid:     "rgba(255,255,255,0.55)",
-    textSoft:    "rgba(255,255,255,0.22)",
-    label:       "rgba(255,255,255,0.32)",
-    labelUp:     "rgba(255,255,255,0.28)",
-    glass:       "lg-dark",
-    glassStrong: "lgs-dark",
-    divider:     "rgba(255,255,255,0.06)",
-    statBg:      "rgba(2,4,10,0.4)",
-    statBorder:  "rgba(255,255,255,0.04)",
-    orbA:        "59,130,246",
-    orbB:        "96,165,250",
-    orbO:        0.07,
-    btnPrimary:  "white",
-    btnPrimaryC: "#02040A",
-    socialC:     "rgba(255,255,255,0.58)",
-    socialCH:    "white",
-    starC:       "rgba(251,191,36,0.85)",
-    quoteC:      "rgba(255,255,255,0.5)",
-    footerC:     "rgba(255,255,255,0.22)",
-    playC:       "white",
-    iconC:       "rgba(255,255,255,0.4)",
-    ghostNum:    "rgba(255,255,255,0.06)",
+    bg:          "#0a0a0a",
+    bgAlt:       "#141412",
+    ink:         "#fafafa",
+    inkMid:      "#a3a3a0",
+    inkSoft:     "#5c5c58",
+    line:        "#262624",
+    invert:      "#fafafa",
+    invertText:  "#0a0a0a",
+    placeholderBg:   "#1b1b18",
+    placeholderText: "#6b6b66",
+    quoteC:      "#a3a3a0",
+    footerC:     "#5c5c58",
+    accent:      "#e0a655",
+    accentSoft:  "rgba(224,166,85,0.1)",
   },
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────────
-function Orb({ t, color, size = 480, style = {} }) {
-  const c = color || t.orbA;
-  return (
-    <div style={{ position: "absolute", width: size, height: size, borderRadius: "50%",
-      background: `rgba(${c},${t.orbO})`, filter: "blur(110px)",
-      pointerEvents: "none", zIndex: 0, ...style }} />
-  );
-}
-
 function BlurText({ text, style = {} }) {
   return (
     <motion.span style={style}
@@ -169,11 +88,45 @@ function BlurText({ text, style = {} }) {
 function Reveal({ children, delay = 0, style = {} }) {
   return (
     <motion.div style={style}
-      initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
+      initial={{ opacity: 0, y: 28, filter: "blur(8px)" }}
       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.82, ease, delay }}
     >{children}</motion.div>
+  );
+}
+
+// Stand-in for a real photo. Swap the `src` prop in once photography is ready —
+// layout and sizing won't need to change.
+function PlaceholderImage({ t, ratio = "4/5", label, radius = 6, src, style = {}, children }) {
+  const [failed, setFailed] = useState(false);
+  const showPlaceholder = !src || failed;
+
+  return (
+    <div style={{
+      position: "relative", width: "100%", aspectRatio: ratio,
+      background: t.placeholderBg, overflow: "hidden", borderRadius: radius,
+      display: "flex", alignItems: "flex-end", ...style,
+    }}>
+      {src && (
+        <img src={src} alt={label || ""} onError={() => setFailed(true)}
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%",
+            objectFit: "cover", display: failed ? "none" : "block" }} />
+      )}
+      {showPlaceholder && (
+        <div style={{
+          position: "absolute", inset: 0,
+          backgroundImage: `repeating-linear-gradient(135deg, ${t.line} 0px, ${t.line} 1px, transparent 1px, transparent 15px)`,
+        }} />
+      )}
+      {showPlaceholder && label && (
+        <span className="font-body" style={{ position: "relative", margin: 16, fontSize: 11,
+          letterSpacing: "0.08em", textTransform: "uppercase", color: t.placeholderText }}>
+          {label}
+        </span>
+      )}
+      {children}
+    </div>
   );
 }
 
@@ -182,11 +135,11 @@ function DarkToggle({ dark, setDark, t, inline = false }) {
   return (
     <motion.button
       onClick={() => setDark(!dark)} whileTap={{ scale: 0.9 }}
-      className={`font-body ${t.glass}`}
+      className="font-body panel"
       style={{
-        width: 36, height: 36, borderRadius: "50%", border: "none", cursor: "pointer",
+        width: 36, height: 36, borderRadius: "50%", cursor: "pointer",
         display: "flex", alignItems: "center", justifyContent: "center",
-        flexShrink: 0,
+        flexShrink: 0, background: t.bgAlt, borderColor: t.line,
         ...(inline ? {} : { position: "fixed", top: 22, right: 24, zIndex: 200 }),
       }}
       title={dark ? "Light mode" : "Dark mode"}
@@ -197,7 +150,7 @@ function DarkToggle({ dark, setDark, t, inline = false }) {
           exit={{ rotate: 25, opacity: 0 }} transition={{ duration: 0.22 }}
           style={{ display: "flex" }}
         >
-          {dark ? <Sun size={15} color="rgba(255,255,255,0.75)" /> : <Moon size={15} color={t.textMid} />}
+          {dark ? <Sun size={15} color={t.inkMid} /> : <Moon size={15} color={t.inkMid} />}
         </motion.span>
       </AnimatePresence>
     </motion.button>
@@ -210,26 +163,26 @@ function Navbar({ t, dark, setDark }) {
 
   return (
     <>
-      {/* Desktop Nav */}
       <nav style={{ position: "fixed", top: 20, left: 0, right: 0, zIndex: 100,
         display: "flex", justifyContent: "center", padding: "0 24px" }}>
-        <div className={t.glass} style={{ borderRadius: 999, padding: "8px 8px",
-          display: "flex", alignItems: "center", gap: 2, maxWidth: "100%", overflowX: "auto" }}>
+        <div className="panel" style={{ borderRadius: 999, padding: "8px 8px",
+          display: "flex", alignItems: "center", gap: 2, maxWidth: "100%", overflowX: "auto",
+          background: t.bg, borderColor: t.line }}>
           {links.map(([label, href]) => (
             <a key={label} href={href} className="font-body"
-              style={{ color: t.label, fontSize: 13, fontWeight: 500, padding: "8px 14px",
-                borderRadius: 999, textDecoration: "none", letterSpacing: "0.02em", transition: "color 0.25s",
+              style={{ color: t.inkMid, fontSize: 13, fontWeight: 500, padding: "8px 14px",
+                borderRadius: 999, textDecoration: "none", letterSpacing: "0.01em", transition: "color 0.25s",
                 whiteSpace: "nowrap", flexShrink: 0 }}
-              onMouseEnter={e => (e.target.style.color = t.text)}
-              onMouseLeave={e => (e.target.style.color = t.label)}
+              onMouseEnter={e => (e.target.style.color = t.ink)}
+              onMouseLeave={e => (e.target.style.color = t.inkMid)}
             >{label}</a>
           ))}
           <a href="mailto:matthewgx.li@gmail.com" className="font-body"
-            style={{ marginLeft: 8, background: t.btnPrimary, color: t.btnPrimaryC,
-              fontSize: 13, fontWeight: 600, padding: "8px 16px", borderRadius: 999,
+            style={{ marginLeft: 8, background: t.invert, color: t.invertText,
+              fontSize: 13, fontWeight: 700, padding: "8px 16px", borderRadius: 999,
               textDecoration: "none", display: "flex", alignItems: "center", gap: 6,
               transition: "opacity 0.3s", whiteSpace: "nowrap", flexShrink: 0 }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = "0.82")}
+            onMouseEnter={e => (e.currentTarget.style.opacity = "0.8")}
             onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
           >
             Work With Me <ArrowUpRight size={12} />
@@ -240,40 +193,24 @@ function Navbar({ t, dark, setDark }) {
         </div>
       </nav>
 
-      {/* Mobile-only simplified style */}
       <style>{`
         @media (max-width: 768px) {
-          nav > div {
-            padding: 6px 6px !important;
-            gap: 1px !important;
-          }
-          nav a {
-            font-size: 11px !important;
-            padding: 6px 10px !important;
-          }
-          nav a[href^="mailto"] {
-            margin-left: 4px !important;
-            padding: 6px 12px !important;
-          }
-          nav a[href^="mailto"] svg {
-            display: none !important;
-          }
+          nav > div { padding: 6px 6px !important; gap: 1px !important; }
+          nav a { font-size: 11px !important; padding: 6px 10px !important; }
+          nav a[href^="mailto"] { margin-left: 4px !important; padding: 6px 12px !important; }
+          nav a[href^="mailto"] svg { display: none !important; }
         }
         @media (max-width: 480px) {
-          nav a span:last-child {
-            display: none;
-          }
-          nav a[href^="mailto"]::after {
-            content: "Email";
-          }
+          nav a span:last-child { display: none; }
+          nav a[href^="mailto"]::after { content: "Email"; }
         }
       `}</style>
     </>
   );
 }
 
-// ─── About ────────────────────────────────────────────────────────────────────────
-function About({ t }) {
+// ─── Hero ─────────────────────────────────────────────────────────────────────────
+function Hero({ t }) {
   const socialLinks = [
     { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/mattgx.li/" },
     { icon: Linkedin,  label: "LinkedIn",  href: "https://www.linkedin.com/in/matthew-li733/" },
@@ -282,66 +219,66 @@ function About({ t }) {
   ];
 
   return (
-    <section id="about" style={{ minHeight: "100vh", display: "flex", alignItems: "center",
-      justifyContent: "center", padding: "130px 24px 90px", position: "relative", overflow: "hidden" }}>
-      <Orb t={t} size={560} style={{ top: 0, left: 0, transform: "translate(-30%,-20%)" }} />
-      <Orb t={t} color={t.orbB} size={360} style={{ bottom: 0, right: 0, transform: "translate(20%,20%)" }} />
-
-      <div style={{ maxWidth: 780, textAlign: "center", position: "relative", zIndex: 1 }}>
-
-        {/* Badge */}
+    <section id="about" style={{ paddingTop: 140, position: "relative", overflow: "hidden" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px", textAlign: "center" }}>
         <Reveal>
-          <div className={`font-body ${t.glass}`} style={{ display: "inline-flex",
-            alignItems: "center", gap: 8, borderRadius: 999, padding: "8px 20px", marginBottom: 32 }}>
-            <Sparkles size={11} color={t.label} />
-            <span style={{ color: t.label, fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase" }}>
-              Content Creator · Product Manager
+          <div className="font-body panel" style={{ display: "inline-flex",
+            alignItems: "center", gap: 8, borderRadius: 999, padding: "8px 20px", marginBottom: 30,
+            background: t.bgAlt, borderColor: t.line }}>
+            <Sparkles size={11} color={t.inkMid} />
+            <span style={{ color: t.inkMid, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" }}>
+              Content Creator · Product Manager · Triathlete
             </span>
           </div>
         </Reveal>
 
-        {/* Name */}
-        <h1 className="font-heading" style={{ fontStyle: "italic", color: t.text,
-          fontSize: "clamp(56px,9vw,96px)", lineHeight: 1.0, letterSpacing: "-0.02em", marginBottom: 20 }}>
+        <h1 className="font-heading" style={{ fontWeight: 900, color: t.ink,
+          fontSize: "clamp(34px,6vw,96px)", lineHeight: 0.95, letterSpacing: "-0.02em",
+          textTransform: "uppercase", marginBottom: 8 }}>
           <BlurText text="Matthew Li" />
         </h1>
+      </div>
 
-        {/* Meta */}
-        {/* <Reveal delay={0.2}>
-          <p className="font-body" style={{ color: t.labelUp, fontSize: 12,
-            letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: 22, fontWeight: 500 }}>
-            5K+ Followers &nbsp;·&nbsp; LinkedIn 4K+ &nbsp;·&nbsp; CS @ University of Florida
-          </p>
-        </Reveal> */}
+      <CountdownStack t={t} />
 
-        <Reveal delay={0.2}>
-          <p className="font-body" style={{ color: t.textMid, fontSize: 18, lineHeight: 1.82,
-            maxWidth: 580, margin: "0 auto 44px" }}>
+      <Reveal delay={0.2} style={{ maxWidth: 880, margin: "0 auto 0", padding: "0 24px" }}>
+        <PlaceholderImage t={t} ratio="16/9" radius={4} label="Race day — Double Dash, Madison MS"
+          src="/photos/hero.jpg" style={{ position: "relative" }}>
+          <div style={{ position: "relative", padding: "26px 30px", background: "linear-gradient(0deg, rgba(0,0,0,0.55), transparent 65%)",
+            width: "100%" }}>
+            <p className="font-heading" style={{ color: "#fafafa", fontWeight: 700,
+              fontSize: "clamp(19px,3vw,30px)", lineHeight: 1.28, letterSpacing: "-0.01em" }}>
+              I finished my first triathlon last month.<br />Now I'm training for a 70.3.
+            </p>
+          </div>
+        </PlaceholderImage>
+      </Reveal>
+
+      <div style={{ maxWidth: 780, margin: "0 auto", padding: "40px 24px 100px", textAlign: "center" }}>
+        <Reveal delay={0.1}>
+          <p className="font-body" style={{ color: t.inkMid, fontSize: 16, lineHeight: 1.7,
+            marginBottom: 34 }}>
             5K+ Followers &nbsp;·&nbsp; LinkedIn 4K+ &nbsp;·&nbsp; CS @ University of Florida
           </p>
         </Reveal>
 
-        {/* Socials */}
-        <Reveal delay={0.42}>
+        <Reveal delay={0.16}>
           <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
             {socialLinks.map(({ icon: Icon, label, href }) => (
               <a key={label} href={href} target="_blank" rel="noopener noreferrer"
-                className={`font-body ${t.glass}`}
+                className="font-body panel"
                 style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 24px",
-                  borderRadius: 999, color: t.socialC, textDecoration: "none",
-                  fontSize: 14, fontWeight: 500, transition: "color 0.25s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = t.socialCH)}
-                onMouseLeave={e => (e.currentTarget.style.color = t.socialC)}
+                  borderRadius: 999, color: t.inkMid, textDecoration: "none",
+                  fontSize: 14, fontWeight: 500, transition: "color 0.25s",
+                  background: t.bgAlt, borderColor: t.line }}
+                onMouseEnter={e => (e.currentTarget.style.color = t.ink)}
+                onMouseLeave={e => (e.currentTarget.style.color = t.inkMid)}
               >
                 <Icon size={15} /> {label}
               </a>
             ))}
           </div>
         </Reveal>
-
-        {/* Polaroid stack — commented out (style mismatch)
-        <PolaroidStack />
-        */}
       </div>
     </section>
   );
@@ -349,51 +286,59 @@ function About({ t }) {
 
 // ─── Why Me ───────────────────────────────────────────────────────────────────────
 function WhyMe({ t }) {
-  /* Trait pills — commented out
-  const traits = [
-    { icon: "🧠", label: "PM Thinking" }, { icon: "🎯", label: "Audience-First" },
-    { icon: "🔥", label: "Authentic Voice" }, { icon: "📊", label: "Data-Driven" },
-    { icon: "⚡", label: "Fast Turnaround" }, { icon: "🤝", label: "Brand Aligned" },
-  ];
-  */
+  const pillars = ["Product Thinking.", "Authentic Voice.", "Shows Up Anyway."];
 
-  const paras = [
-  "As a Asian American CS student and Product Manager, I approach content like a product: understand the user, deliver value, drive action.",
-  "I don't just execute your brief - I think through what your audience actually needs to hear, then say it in a way they'll remember and act on.",
+  const openingParas = [
+    "As a Asian American CS student and Product Manager, I approach content like a product: understand the user, deliver value, drive action.",
+    "I don't just execute your brief - I think through what your audience actually needs to hear, then say it in a way they'll remember and act on.",
+    "I'm building that same track record in endurance sports right now, one race at a time, and I want brand partners in that space along for it.",
   ];
+
+  const reasoningPara = "I go looking for the situations where I might fail, on purpose, because that's where I actually grow. Early mornings, slow splits, and a few moments I wanted to quit got me to the start line, and finishing last didn't change how it felt to cross it. That's the whole point of putting this out there: if I'm willing to go chase the thing that might break me, I want the people watching to go chase theirs too.";
 
   return (
-    <section id="why-me" style={{ padding: "80px 24px 120px", position: "relative", overflow: "hidden" }}>
-      <Orb t={t} color="99,102,241" size={460} style={{ top: "50%", left: "50%", transform: "translate(-50%,-50%)" }} />
-
-      <div style={{ maxWidth: 860, margin: "0 auto", position: "relative", zIndex: 1 }}>
-        <Reveal style={{ textAlign: "center", marginBottom: 52 }}>
-          <p className="font-body" style={{ color: t.labelUp, fontSize: 11,
+    <section id="why-me" style={{ padding: "60px 24px 120px" }}>
+      <div style={{ maxWidth: 860, margin: "0 auto" }}>
+        <Reveal style={{ textAlign: "center", marginBottom: 44 }}>
+          <p className="font-body" style={{ color: t.inkSoft, fontSize: 11,
             letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 14 }}>The Case</p>
-          <h2 className="font-heading" style={{ fontStyle: "italic",
-            fontSize: "clamp(36px,5vw,56px)", color: t.text, letterSpacing: "-0.02em" }}>
+          <h2 className="font-heading" style={{ fontWeight: 800,
+            fontSize: "clamp(34px,5vw,54px)", color: t.ink, letterSpacing: "-0.02em" }}>
             Why Me?
           </h2>
         </Reveal>
 
-        <Reveal>
-          <div className={t.glassStrong} style={{ borderRadius: 32, padding: "48px 48px 44px", position: "relative" }}>
-            {/* Accent top line */}
-            <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2,
-              borderRadius: "32px 32px 0 0",
-              background: "linear-gradient(90deg, rgba(59,130,246,0.45), rgba(96,165,250,0.45))" }} />
+        <Reveal style={{ textAlign: "center", marginBottom: 44 }}>
+          <div style={{ display: "flex", justifyContent: "center", gap: 28, flexWrap: "wrap" }}>
+            {pillars.map((p) => (
+              <span key={p} className="font-heading" style={{ fontWeight: 700, fontSize: 18,
+                color: t.ink, letterSpacing: "-0.01em" }}>{p}</span>
+            ))}
+          </div>
+        </Reveal>
 
-            {paras.map((text, i) => (
-              <p key={i} className="font-body" style={{ color: t.textMid, fontSize: 16,
-                lineHeight: 1.92, marginBottom: i < paras.length - 1 ? 20 : 0 }}>{text}</p>
+        <Reveal delay={0.1}>
+          <div className="panel" style={{ borderRadius: 10, padding: "48px 48px 44px", position: "relative",
+            background: t.bgAlt, borderColor: t.line }}>
+            {openingParas.map((text, i) => (
+              <p key={i} className="font-body" style={{ color: t.inkMid, fontSize: 16,
+                lineHeight: 1.85, marginBottom: 20 }}>{text}</p>
             ))}
 
-            <div style={{ borderTop: `1px solid ${t.divider}`, paddingTop: 28, marginTop: 28 }}>
-              <p className="font-heading" style={{ fontStyle: "italic", color: t.text,
-                fontSize: 22, lineHeight: 1.55 }}>
-                Your brand doesn't need more content. It needs content that converts actual users.
-              </p>
-            </div>
+            <p className="font-body" style={{ color: t.inkMid, fontSize: 16, lineHeight: 1.85, marginBottom: 24 }}>
+              On August 8, 2026, I lined up in Madison, Mississippi for the Double Dash at Reunion, my first
+              triathlon. I signed up a month earlier with zero experience in the sport.
+            </p>
+
+            <p className="font-body" style={{ fontWeight: 800, color: t.ink,
+              fontSize: 17, lineHeight: 1.5, letterSpacing: "-0.005em",
+              borderLeft: `3px solid ${t.ink}`, paddingLeft: 20, margin: "0 0 24px" }}>
+              I finished last in my age group. I'm still proud of every second of it.
+            </p>
+
+            <p className="font-body" style={{ color: t.inkMid, fontSize: 16, lineHeight: 1.85 }}>
+              {reasoningPara}
+            </p>
           </div>
         </Reveal>
       </div>
@@ -421,7 +366,7 @@ const videoData = {
   ],
 };
 
-function VideoCarousel({ videos, label, t, dark}) {
+function VideoCarousel({ videos, label, t, dark }) {
   const [idx, setIdx] = useState(0);
   const [playing, setPlaying] = useState(false);
   const videoRef = useRef(null);
@@ -429,70 +374,56 @@ function VideoCarousel({ videos, label, t, dark}) {
   const go = (n) => { setIdx((idx + n + videos.length) % videos.length); setPlaying(false); };
 
   return (
-    <div className={t.glassStrong} style={{ borderRadius: 28, overflow: "hidden" }}>
+    <div className="panel" style={{ borderRadius: 10, overflow: "hidden", background: t.bgAlt, borderColor: t.line }}>
 
       <div style={{ padding: "26px 28px 0" }}>
-        <p className="font-body" style={{ color: t.labelUp, fontSize: 10,
-          letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: 6 }}>{label}</p>
-        <h3 className="font-heading" style={{ fontStyle: "italic", color: t.text, fontSize: 24 }}>
+        <p className="font-body" style={{ color: t.inkSoft, fontSize: 10,
+          letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 6 }}>{label}</p>
+        <h3 className="font-heading" style={{ fontWeight: 700, color: t.ink, fontSize: 22, letterSpacing: "-0.01em" }}>
           {cur.title}
         </h3>
       </div>
 
-      {/* Video */}
       <div style={{ position: "relative", aspectRatio: "9/16", margin: "18px 28px 0",
-        borderRadius: 20, overflow: "hidden", background: t.statBg }}>
+        borderRadius: 6, overflow: "hidden", background: t.bg }}>
         <video ref={videoRef} key={cur.file} className="video-el"
           src={cur.file} loop muted playsInline />
         {!playing && (
           <div onClick={() => { videoRef.current?.play(); setPlaying(true); }}
             style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center",
               justifyContent: "center", background: "rgba(0,0,0,0.18)", cursor: "pointer" }}>
-            <div className={t.glass} style={{ width: 54, height: 54, borderRadius: "50%",
-              display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Play size={19} color={t.playC} fill={t.playC} style={{ marginLeft: 3 }} />
+            <div className="panel" style={{ width: 54, height: 54, borderRadius: "50%",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              background: t.bg, borderColor: t.line }}>
+              <Play size={19} color={t.ink} fill={t.ink} style={{ marginLeft: 3 }} />
             </div>
           </div>
         )}
         {videos.length > 1 && (
           <>
-            <div className={`font-body ${t.glass}`} style={{ position: "absolute", top: 12, right: 12,
-              borderRadius: 999, padding: "5px 13px", fontSize: 11, color: t.textMid }}>
+            <div className="font-body panel" style={{ position: "absolute", top: 12, right: 12,
+              borderRadius: 999, padding: "5px 13px", fontSize: 11, color: t.inkMid,
+              background: t.bg, borderColor: t.line }}>
               {idx + 1} / {videos.length}
             </div>
             <div style={{ position: "absolute", bottom: 12, left: "50%", transform: "translateX(-50%)",
               display: "flex", gap: 8 }}>
               {[-1, 1].map((dir, i) => (
                 <button key={i} onClick={() => go(dir)}
-                  style={{ 
-                    width: 40,
-                    height: 40,
-                    minWidth: 40,  // ← ADD THIS to prevent squishing
-                    minHeight: 40, // ← ADD THIS
-                    borderRadius: "50%", 
+                  style={{
+                    width: 40, height: 40, minWidth: 40, minHeight: 40,
+                    borderRadius: "50%",
                     border: `2px solid ${dark ? "white" : "black"}`,
-                    cursor: "pointer", 
-                    display: "flex", 
-                    alignItems: "center",
-                    justifyContent: "center", 
+                    cursor: "pointer", display: "flex", alignItems: "center",
+                    justifyContent: "center",
                     background: dark ? "rgba(0,0,0,0.7)" : "rgba(255,255,255,0.9)",
-                    backdropFilter: "blur(12px)",
                     transition: "all 0.3s",
-                    boxShadow: "0 2px 12px rgba(0,0,0,0.25)",
-                    fontSize: "24px",  // ← Bigger arrows
-                    fontWeight: "bold",
+                    fontSize: "22px", fontWeight: "bold",
                     color: dark ? "white" : "black",
-                    padding: 0,  // ← ADD THIS
-                    flexShrink: 0  // ← ADD THIS to prevent squishing
+                    padding: 0, flexShrink: 0,
                   }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.background = dark ? "rgba(0,0,0,0.9)" : "rgba(255,255,255,1)";
-                    e.currentTarget.style.transform = "scale(1.1)";
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.background = dark ? "rgba(0,0,0,0.7)" : "rgba(255,255,255,0.9)";
-                    e.currentTarget.style.transform = "scale(1)";
-                  }}
+                  onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.1)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; }}
                 >
                   {dir === -1 ? "‹" : "›"}
                 </button>
@@ -502,28 +433,27 @@ function VideoCarousel({ videos, label, t, dark}) {
         )}
       </div>
 
-      {/* Stats grid */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 1,
-        margin: "18px 28px 0", background: t.statBorder, borderRadius: 14, overflow: "hidden" }}>
+        margin: "18px 28px 0", background: t.line, borderRadius: 6, overflow: "hidden" }}>
         {[["Views", cur.views],["Impressions", cur.impressions],["Engagement", cur.engagement],["Likes", cur.likes]].map(([sl, val]) => (
-          <div key={sl} style={{ padding: "13px 6px", textAlign: "center", background: t.statBg }}>
-            <p className="font-heading" style={{ fontStyle: "italic", color: t.text,
-              fontSize: 18, marginBottom: 2 }}>{val}</p>
-            <p className="font-body" style={{ color: t.labelUp, fontSize: 9,
-              letterSpacing: "0.14em", textTransform: "uppercase" }}>{sl}</p>
+          <div key={sl} style={{ padding: "13px 6px", textAlign: "center", background: t.bgAlt }}>
+            <p className="font-heading" style={{ fontWeight: 700, color: t.ink,
+              fontSize: 17, marginBottom: 2 }}>{val}</p>
+            <p className="font-body" style={{ color: t.inkSoft, fontSize: 9,
+              letterSpacing: "0.12em", textTransform: "uppercase" }}>{sl}</p>
           </div>
         ))}
       </div>
 
       <div style={{ padding: "14px 28px 26px" }}>
-        <p className="font-body" style={{ color: t.textMid, fontSize: 14, lineHeight: 1.72,
+        <p className="font-body" style={{ color: t.inkMid, fontSize: 14, lineHeight: 1.7,
           marginBottom: 12 }}>{cur.description}</p>
         {cur.link && (
           <a href={cur.link} target="_blank" rel="noopener noreferrer" className="font-body"
             style={{ display: "inline-flex", alignItems: "center", gap: 7,
-              color: t.label, fontSize: 13, textDecoration: "none", transition: "color 0.25s" }}
-            onMouseEnter={e => (e.currentTarget.style.color = t.text)}
-            onMouseLeave={e => (e.currentTarget.style.color = t.label)}
+              color: t.inkSoft, fontSize: 13, textDecoration: "none", transition: "color 0.25s" }}
+            onMouseEnter={e => (e.currentTarget.style.color = t.ink)}
+            onMouseLeave={e => (e.currentTarget.style.color = t.inkSoft)}
           >
             <ExternalLink size={13} /> View Original Post
           </a>
@@ -533,31 +463,147 @@ function VideoCarousel({ videos, label, t, dark}) {
   );
 }
 
-// ─── Portfolio ────────────────────────────────────────────────────────────────────
-function Portfolio({ t, dark }) {
+// ─── Gallery ────────────────────────────────────────────────────────────────────────
+function Gallery({ t, dark }) {
   return (
-    <section id="portfolio" style={{ padding: "80px 24px 120px", position: "relative", overflow: "hidden" }}>
-      <Orb t={t} size={400} style={{ top: 0, right: 0, transform: "translate(30%,-20%)" }} />
-
-      <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative", zIndex: 1 }}>
-        <Reveal style={{ textAlign: "center", marginBottom: 60 }}>
-          <p className="font-body" style={{ color: t.labelUp, fontSize: 11,
+    <section id="portfolio" style={{ padding: "60px 24px 120px" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <Reveal style={{ textAlign: "center", marginBottom: 56 }}>
+          <p className="font-body" style={{ color: t.inkSoft, fontSize: 11,
             letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 14 }}>Work</p>
-          <h2 className="font-heading" style={{ fontStyle: "italic",
-            fontSize: "clamp(36px,5vw,56px)", color: t.text, letterSpacing: "-0.02em" }}>
+          <h2 className="font-heading" style={{ fontWeight: 800,
+            fontSize: "clamp(34px,5vw,54px)", color: t.ink, letterSpacing: "-0.02em" }}>
             Content Portfolio
           </h2>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px,1fr))", gap: 28 }}>
-          <Reveal delay={0}><VideoCarousel videos={videoData.profdev} label="📱 LinkedIn" t={t} dark={dark} /></Reveal>
-          <Reveal delay={0.1}><VideoCarousel videos={videoData.startups} label="🚀 Startups" t={t} dark={dark} /></Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px,1fr))", gap: 24 }}>
+          <Reveal delay={0}><VideoCarousel videos={videoData.profdev} label="LinkedIn" t={t} dark={dark} /></Reveal>
+          <Reveal delay={0.08}>
+            <div className="panel" style={{ borderRadius: 10, overflow: "hidden", background: t.bgAlt, borderColor: t.line, height: "100%" }}>
+              <div style={{ padding: "26px 28px 18px" }}>
+                <p className="font-body" style={{ color: t.inkSoft, fontSize: 10,
+                  letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 6 }}>Race Day</p>
+                <h3 className="font-heading" style={{ fontWeight: 700, color: t.ink, fontSize: 22, letterSpacing: "-0.01em" }}>
+                  Double Dash, Madison MS
+                </h3>
+              </div>
+              <PlaceholderImage t={t} ratio="4/5" radius={0} label="Race photo" src="/photos/gallery.jpg" />
+            </div>
+          </Reveal>
+          <Reveal delay={0.16}><VideoCarousel videos={videoData.startups} label="Startups" t={t} dark={dark} /></Reveal>
         </div>
       </div>
     </section>
   );
 }
 
-// ─── Contact ──────────────────────────────────────────────────────────────────────
+// ─── Countdown ────────────────────────────────────────────────────────────────────
+const RACES = {
+  sprint: {
+    label: "Next Up",
+    name: "Hub City Hustle Triathlon",
+    type: "Sprint Triathlon",
+    location: "Sumrall, Mississippi",
+    date: new Date("2026-10-18T07:00:00-05:00"),
+    dateLabel: "Oct 18, 2026",
+    link: "https://www.trisignup.com/Race/MS/Oloh/HubCityHustleTriathlon",
+  },
+  half: {
+    label: "The Long Game",
+    name: "IRONMAN 70.3",
+    type: "Florida",
+    location: "Haines City, Florida",
+    date: new Date("2026-12-13T07:00:00-05:00"),
+    dateLabel: "Dec 13, 2026",
+    link: "https://www.ironman.com/races/im703-florida",
+  },
+};
+
+function useCountdown(target) {
+  const [remaining, setRemaining] = useState(() => target - new Date());
+  useEffect(() => {
+    const id = setInterval(() => setRemaining(target - new Date()), 1000);
+    return () => clearInterval(id);
+  }, [target]);
+  return Math.max(0, remaining);
+}
+
+function Countdown({ t, race, size = "large" }) {
+  const ms = useCountdown(race.date);
+  const units = [
+    ["Days", Math.floor(ms / 86400000)],
+    ["Hours", Math.floor((ms % 86400000) / 3600000)],
+    ["Min", Math.floor((ms % 3600000) / 60000)],
+    ["Sec", Math.floor((ms % 60000) / 1000)],
+  ];
+  const large = size === "large";
+  const cardColor = large ? t.ink : t.accent;
+  const cardBg = large ? t.bgAlt : t.accentSoft;
+
+  return (
+    <Reveal delay={large ? 0.1 : 0.16}>
+      <div className="panel" style={{ borderRadius: large ? 14 : 10, padding: large ? "26px 28px" : "16px 18px",
+        background: cardBg, borderColor: large ? t.line : t.accent }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between",
+          flexWrap: "wrap", gap: 10, marginBottom: large ? 20 : 12 }}>
+          <div style={{ textAlign: "left" }}>
+            <p className="font-body" style={{ color: large ? t.inkSoft : t.accent, fontSize: large ? 10 : 9,
+              letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 4, fontWeight: large ? 400 : 700 }}>{race.label}</p>
+            <p className="font-heading" style={{ fontWeight: 800, fontSize: large ? 22 : 15, color: t.ink, letterSpacing: "-0.01em" }}>
+              {race.name}
+            </p>
+            <p className="font-body" style={{ color: t.inkSoft, fontSize: large ? 12 : 11, marginTop: 2 }}>{race.type}</p>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <p className="font-body" style={{ color: t.inkMid, fontSize: large ? 13 : 11, display: "flex",
+              alignItems: "center", justifyContent: "flex-end", gap: 6, marginBottom: 6 }}>
+              <MapPin size={large ? 13 : 11} /> {race.location} &nbsp;·&nbsp; {race.dateLabel}
+            </p>
+            <a href={race.link} target="_blank" rel="noopener noreferrer" className="font-body"
+              style={{ display: "inline-flex", alignItems: "center", gap: 5,
+                color: cardColor, fontSize: large ? 12 : 11, textDecoration: "none", transition: "opacity 0.25s" }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = "0.65")}
+              onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+            >
+              Race Info <ExternalLink size={large ? 12 : 11} />
+            </a>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "center", gap: large ? 10 : 7, flexWrap: "wrap" }}>
+          {units.map(([label, val]) => (
+            <div key={label} style={{ borderRadius: 8, padding: large ? "12px 16px" : "8px 11px",
+              minWidth: large ? 68 : 48, background: t.bg, border: `1px solid ${large ? t.line : t.accent}` }}>
+              <div className="font-heading" style={{ fontWeight: 800, fontSize: large ? 24 : 16, color: cardColor,
+                fontVariantNumeric: "tabular-nums", letterSpacing: "-0.02em" }}>
+                {String(val).padStart(2, "0")}
+              </div>
+              <div className="font-body" style={{ fontSize: large ? 9 : 8, letterSpacing: "0.1em",
+                textTransform: "uppercase", color: t.inkSoft, marginTop: 3 }}>{label}</div>
+            </div>
+          ))}
+        </div>
+        {large && (
+          <p className="font-body" style={{ color: t.inkSoft, fontSize: 12, textAlign: "center", marginTop: 16 }}>
+            Training in public until race day.
+          </p>
+        )}
+      </div>
+    </Reveal>
+  );
+}
+
+function CountdownStack({ t }) {
+  return (
+    <div id="countdown" style={{ maxWidth: 640, margin: "0 auto", padding: "0 24px 36px",
+      display: "flex", flexDirection: "column", gap: 14 }}>
+      <Countdown t={t} race={RACES.sprint} size="large" />
+      <Countdown t={t} race={RACES.half} size="small" />
+    </div>
+  );
+}
+
+// ─── Process ──────────────────────────────────────────────────────────────────────
 const workflowSteps = [
   { step: "01", title: "Strategy", icon: Target,    desc: "Discussing ideas, expectations, and logistics through email or a phone call." },
   { step: "02", title: "Creating", icon: Zap,       desc: "Scripting and editing the first video draft for your review and approval." },
@@ -565,65 +611,33 @@ const workflowSteps = [
   { step: "04", title: "Delivery", icon: Package,   desc: "Final polished content delivered within 5–7 business days, ready to publish." },
 ];
 
-function Contact({ t }) {
+function Process({ t }) {
   return (
-    <section id="contact" style={{ padding: "80px 24px 120px", position: "relative", overflow: "hidden" }}>
-      <Orb t={t} color={t.orbB} size={380} style={{ bottom: 0, left: 0, transform: "translate(-30%,20%)" }} />
-
-      <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative", zIndex: 1 }}>
-        <Reveal style={{ textAlign: "center", marginBottom: 52 }}>
-          <p className="font-body" style={{ color: t.labelUp, fontSize: 11,
-            letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 14 }}>Get In Touch</p>
-          <h2 className="font-heading" style={{ fontStyle: "italic",
-            fontSize: "clamp(36px,5vw,56px)", color: t.text, letterSpacing: "-0.02em" }}>
-            Let's Work Together
+    <section id="process" style={{ padding: "60px 24px 120px" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <Reveal style={{ textAlign: "center", marginBottom: 48 }}>
+          <p className="font-body" style={{ color: t.inkSoft, fontSize: 11,
+            letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 14 }}>Process</p>
+          <h2 className="font-heading" style={{ fontWeight: 800, color: t.ink,
+            fontSize: "clamp(34px,5vw,54px)", letterSpacing: "-0.02em" }}>
+            My Workflow
           </h2>
         </Reveal>
 
-        <Reveal delay={0.1}>
-          <div className={t.glassStrong} style={{ borderRadius: 28, padding: "44px 40px",
-            textAlign: "center", marginBottom: 48 }}>
-            <p className="font-body" style={{ color: t.labelUp, fontSize: 12,
-              letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 16 }}>
-              Ready to create something amazing?
-            </p>
-            <a href="mailto:matthewgx.li@gmail.com" className="font-heading"
-              style={{ fontStyle: "italic", color: t.text,
-                fontSize: "clamp(22px,4vw,38px)", textDecoration: "none",
-                transition: "opacity 0.3s", display: "inline-block" }}
-              onMouseEnter={e => (e.currentTarget.style.opacity = "0.6")}
-              onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
-            >matthewgx.li@gmail.com</a>
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.12} style={{ textAlign: "center", marginBottom: 36 }}>
-          <p className="font-body" style={{ color: t.labelUp, fontSize: 11,
-            letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 12 }}>Process</p>
-          <h3 className="font-heading" style={{ fontStyle: "italic", color: t.text, fontSize: 34 }}>
-            My Workflow
-          </h3>
-        </Reveal>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px,1fr))", gap: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px,1fr))", gap: 1,
+          background: t.line, borderRadius: 10, overflow: "hidden" }}>
           {workflowSteps.map(({ step, title, icon: Icon, desc }, i) => (
-            <Reveal key={step} delay={i * 0.07}>
-              <div className={t.glass} style={{ borderRadius: 24, padding: 28,
-                transition: "transform 0.3s", cursor: "default" }}
-                onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-5px)")}
-                onMouseLeave={e => (e.currentTarget.style.transform = "translateY(0)")}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
-                  <div style={{ width: 40, height: 40, borderRadius: 12,
-                    border: `1px solid ${t.divider}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <Icon size={17} color={t.iconC} />
-                  </div>
-                  <span className="font-heading" style={{ fontStyle: "italic",
-                    color: t.ghostNum, fontSize: 30 }}>{step}</span>
+            <Reveal key={step} delay={i * 0.07} style={{ background: t.bgAlt, padding: 28 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+                <div className="panel" style={{ width: 40, height: 40, borderRadius: 8,
+                  borderColor: t.line, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Icon size={17} color={t.inkMid} />
                 </div>
-                <h4 className="font-heading" style={{ fontStyle: "italic", color: t.text, fontSize: 22, marginBottom: 10 }}>{title}</h4>
-                <p className="font-body" style={{ color: t.textMid, fontSize: 14, lineHeight: 1.72 }}>{desc}</p>
+                <span className="font-heading" style={{ fontWeight: 800,
+                  color: t.inkSoft, fontSize: 26 }}>{step}</span>
               </div>
+              <h4 className="font-heading" style={{ fontWeight: 700, color: t.ink, fontSize: 20, marginBottom: 10, letterSpacing: "-0.01em" }}>{title}</h4>
+              <p className="font-body" style={{ color: t.inkMid, fontSize: 14, lineHeight: 1.7 }}>{desc}</p>
             </Reveal>
           ))}
         </div>
@@ -632,40 +646,85 @@ function Contact({ t }) {
   );
 }
 
+// ─── Closing Statement ─────────────────────────────────────────────────────────────
+function ClosingStatement({ t }) {
+  return (
+    <section style={{ padding: "0" }}>
+      <div style={{ position: "relative" }}>
+        <PlaceholderImage t={t} ratio="21/9" radius={0} label="Finish line — Double Dash, Madison MS"
+          src="/photos/closing.jpg">
+          <div style={{ position: "relative", padding: "40px 28px", width: "100%",
+            background: "linear-gradient(0deg, rgba(0,0,0,0.6), transparent 70%)",
+            display: "flex", justifyContent: "center" }}>
+            <p className="font-heading" style={{ color: "#fafafa", fontWeight: 800,
+              fontSize: "clamp(28px,5vw,56px)", letterSpacing: "-0.02em", textAlign: "center" }}>
+              Keep Failing Forward.
+            </p>
+          </div>
+        </PlaceholderImage>
+      </div>
+    </section>
+  );
+}
+
+// ─── Contact ──────────────────────────────────────────────────────────────────────
+function Contact({ t }) {
+  return (
+    <section id="contact" style={{ padding: "100px 24px 60px" }}>
+      <div style={{ maxWidth: 700, margin: "0 auto" }}>
+        <Reveal style={{ textAlign: "center", marginBottom: 40 }}>
+          <p className="font-body" style={{ color: t.inkSoft, fontSize: 11,
+            letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 14 }}>Get In Touch</p>
+          <h2 className="font-heading" style={{ fontWeight: 800,
+            fontSize: "clamp(34px,5vw,54px)", color: t.ink, letterSpacing: "-0.02em" }}>
+            Let's Work Together
+          </h2>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <div className="panel" style={{ borderRadius: 10, padding: "44px 40px",
+            textAlign: "center", background: t.bgAlt, borderColor: t.line }}>
+            <p className="font-body" style={{ color: t.inkSoft, fontSize: 12,
+              letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16 }}>
+              Ready to create something amazing?
+            </p>
+            <a href="mailto:matthewgx.li@gmail.com" className="font-heading"
+              style={{ fontWeight: 800, color: t.ink,
+                fontSize: "clamp(20px,4vw,36px)", textDecoration: "none",
+                transition: "opacity 0.3s", display: "inline-block", letterSpacing: "-0.01em" }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = "0.6")}
+              onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+            >matthewgx.li@gmail.com</a>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 // ─── Reviews ──────────────────────────────────────────────────────────────────────
 function Reviews({ t }) {
   return (
-    <section id="reviews" style={{ padding: "80px 24px 140px", position: "relative", overflow: "hidden" }}>
-      <Orb t={t} size={320} style={{ top: "30%", right: "8%" }} />
-
-      <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative", zIndex: 1 }}>
-        <Reveal style={{ textAlign: "center", marginBottom: 52 }}>
-          <p className="font-body" style={{ color: t.labelUp, fontSize: 11,
+    <section id="reviews" style={{ padding: "60px 24px 140px" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <Reveal style={{ textAlign: "center", marginBottom: 48 }}>
+          <p className="font-body" style={{ color: t.inkSoft, fontSize: 11,
             letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 14 }}>Testimonials</p>
-          <h2 className="font-heading" style={{ fontStyle: "italic",
-            fontSize: "clamp(36px,5vw,56px)", color: t.text, letterSpacing: "-0.02em" }}>
+          <h2 className="font-heading" style={{ fontWeight: 800,
+            fontSize: "clamp(34px,5vw,54px)", color: t.ink, letterSpacing: "-0.02em" }}>
             Client Testimonials
           </h2>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px,1fr))", gap: 24 }}>
           <Reveal>
-            <div className={t.glassStrong} style={{ borderRadius: 28, padding: 36,
-              transition: "transform 0.3s" }}
-              onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-5px)")}
-              onMouseLeave={e => (e.currentTarget.style.transform = "translateY(0)")}
-            >
-              <div style={{ display: "flex", gap: 4, marginBottom: 20 }}>
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} size={15} color={t.starC} fill={t.starC} />
-                ))}
-              </div>
-              <p className="font-body" style={{ color: t.quoteC, fontSize: 15, lineHeight: 1.82,
-                marginBottom: 24, fontStyle: "italic" }}>
+            <div className="panel" style={{ borderRadius: 10, padding: 36, background: t.bgAlt, borderColor: t.line }}>
+              <p className="font-body" style={{ color: t.quoteC, fontSize: 15, lineHeight: 1.8,
+                marginBottom: 22 }}>
                 "Matthew is a fantastic creator and very diligent. If it's not great work, he'll make sure it becomes great with effort and dedication."
               </p>
-              <p className="font-heading" style={{ fontStyle: "italic", color: t.text, fontSize: 18 }}>— FavorIt</p>
-              <p className="font-body" style={{ color: t.labelUp, fontSize: 11,
-                letterSpacing: "0.15em", textTransform: "uppercase", marginTop: 4 }}>Brand Partner</p>
+              <p className="font-heading" style={{ fontWeight: 700, color: t.ink, fontSize: 17 }}>— FavorIt</p>
+              <p className="font-body" style={{ color: t.inkSoft, fontSize: 11,
+                letterSpacing: "0.14em", textTransform: "uppercase", marginTop: 4 }}>Brand Partner</p>
             </div>
           </Reveal>
         </div>
@@ -676,37 +735,56 @@ function Reviews({ t }) {
 
 // ─── Footer ───────────────────────────────────────────────────────────────────────
 function Footer({ t }) {
-  return (
-    <footer style={{ borderTop: `1px solid ${t.divider}`, padding: "44px 40px 32px" }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex",
-        alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 20 }}>
-        <div>
-          <p className="font-heading" style={{ fontStyle: "italic", color: t.textMid, fontSize: 22 }}>
-            Matthew Li
-          </p>
-          <p className="font-body" style={{ color: t.textSoft, fontSize: 12, marginTop: 4 }}>
-            Keep Failing Forward.
-          </p>
-        </div>
-        <div style={{ display: "flex", gap: 24 }}>
-          {[["Instagram","https://www.instagram.com/mattgx.li/"],["LinkedIn","https://www.linkedin.com/in/matthew-li733/"],["TikTok","https://www.tiktok.com/@mattgx.li"]].map(([label, href]) => (
-            <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="font-body"
-              style={{ color: t.footerC, fontSize: 13, textDecoration: "none", transition: "color 0.25s" }}
-              onMouseEnter={e => (e.target.style.color = t.text)}
-              onMouseLeave={e => (e.target.style.color = t.footerC)}
-            >{label}</a>
-          ))}
-        </div>
-        <p className="font-body" style={{ color: t.textSoft, fontSize: 12 }}>
-          © 2026 Matthew Li. All rights reserved.
-        </p>
+  const explore = [["Why Me","#why-me"],["Portfolio","#portfolio"],["Process","#process"],["Reviews","#reviews"]];
+  const connect = [["Instagram","https://www.instagram.com/mattgx.li/"],["LinkedIn","https://www.linkedin.com/in/matthew-li733/"],["TikTok","https://www.tiktok.com/@mattgx.li"],["Email","mailto:matthewgx.li@gmail.com"]];
+
+  const col = (title, items) => (
+    <div>
+      <p className="font-body" style={{ color: t.inkSoft, fontSize: 11, letterSpacing: "0.14em",
+        textTransform: "uppercase", marginBottom: 14 }}>{title}</p>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        {items.map(([label, href]) => (
+          <a key={label} href={href} target={href.startsWith("http") ? "_blank" : undefined}
+            rel="noopener noreferrer" className="font-body"
+            style={{ color: t.footerC, fontSize: 14, textDecoration: "none", transition: "color 0.25s" }}
+            onMouseEnter={e => (e.target.style.color = t.ink)}
+            onMouseLeave={e => (e.target.style.color = t.footerC)}
+          >{label}</a>
+        ))}
       </div>
+    </div>
+  );
+
+  return (
+    <footer style={{ borderTop: `1px solid ${t.line}`, padding: "56px 24px 32px" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr 1fr", gap: 40, marginBottom: 44 }}>
+          <div>
+            <p className="font-heading" style={{ fontWeight: 800, color: t.ink, fontSize: 24, letterSpacing: "-0.01em" }}>
+              Matthew Li
+            </p>
+            <p className="font-body" style={{ color: t.inkSoft, fontSize: 13, marginTop: 6 }}>
+              Keep Failing Forward.
+            </p>
+          </div>
+          {col("Explore", explore)}
+          {col("Connect", connect)}
+        </div>
+        <div style={{ borderTop: `1px solid ${t.line}`, paddingTop: 24 }}>
+          <p className="font-body" style={{ color: t.inkSoft, fontSize: 12 }}>
+            © 2026 Matthew Li. All rights reserved.
+          </p>
+        </div>
+      </div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          footer > div > div:first-child { grid-template-columns: 1fr !important; gap: 28px !important; }
+        }
+      `}</style>
     </footer>
   );
 }
-
-// ─── Squirtle — commented out ────────────────────────────────────────────────────
-// function Squirtle({ t }) { ... }
 
 // ─── App ──────────────────────────────────────────────────────────────────────────
 export default function App() {
@@ -714,34 +792,23 @@ export default function App() {
   const t = THEMES[dark ? "dark" : "light"];
 
   return (
-    <motion.div animate={{ backgroundColor: t.bg }} transition={{ duration: 0.45 }}
-      style={{ minHeight: "100vh", overflowX: "hidden", width: "100vw" }}> 
+    <motion.div initial={false} animate={{ backgroundColor: t.bg }} transition={{ duration: 0.45 }}
+      style={{ minHeight: "100vh", overflowX: "hidden", width: "100vw" }}>
       <style dangerouslySetInnerHTML={{ __html: globalStyles }} />
-
-      {/* Light-mode background mesh */}
-      {!dark && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none",
-          background: `
-            radial-gradient(ellipse at 18% 40%, rgba(59,130,246,0.07) 0%, transparent 50%),
-            radial-gradient(ellipse at 82% 70%, rgba(96,165,250,0.06) 0%, transparent 45%),
-            radial-gradient(ellipse at 55% 8%,  rgba(59,130,246,0.05) 0%, transparent 40%)
-          `
-        }} />
-      )}
 
       <Navbar t={t} dark={dark} setDark={setDark} />
 
       <main style={{ position: "relative", zIndex: 1 }}>
-        <About    t={t} />
-        <WhyMe    t={t} />
-        <Portfolio t={t} dark={dark}/>
-        <Contact  t={t} />
-        <Reviews  t={t} />
+        <Hero        t={t} />
+        <WhyMe       t={t} />
+        <Gallery     t={t} dark={dark} />
+        <Process     t={t} />
+        <ClosingStatement t={t} />
+        <Contact     t={t} />
+        <Reviews     t={t} />
       </main>
 
       <Footer t={t} />
-
-      {/* <Squirtle t={t} /> */}
     </motion.div>
   );
 }
