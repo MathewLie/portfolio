@@ -1,4 +1,4 @@
-import { TopNav, PageHero, CountdownStack, PlaceholderImage, Reveal, Contact, Footer } from "../components";
+import { TopNav, PageHero, CountdownStack, PlaceholderImage, Reveal, Contact, Process, Footer } from "../components";
 import { RACES } from "../theme";
 
 function ClosingStatement({ t }) {
@@ -128,6 +128,7 @@ export default function Triathlon({ t, dark, setDark }) {
       </PageHero>
 
       <BrandDeals t={t} />
+      <Process t={t} />
       <TheStory t={t} />
       <ClosingStatement t={t} />
       <Contact t={t} />

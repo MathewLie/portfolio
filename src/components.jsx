@@ -5,7 +5,7 @@ import {
   Instagram, Linkedin, Music2, Mail,
   ExternalLink, Play, MapPin, Sun, Moon,
 } from "lucide-react";
-import { ease } from "./theme";
+import { ease, workflowSteps } from "./theme";
 
 // ─── Motion Helpers ─────────────────────────────────────────────────────────────
 export function BlurText({ text, style = {} }) {
@@ -401,11 +401,47 @@ export function Contact({ t }) {
   );
 }
 
+// ─── Process ──────────────────────────────────────────────────────────────────────
+export function Process({ t }) {
+  return (
+    <section style={{ padding: "20px 24px 120px" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <Reveal style={{ textAlign: "center", marginBottom: 56 }}>
+          <p className="font-body" style={{ color: t.inkSoft, fontSize: 11,
+            letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 14 }}>Process</p>
+          <h2 className="font-heading" style={{ fontWeight: 800, color: t.ink,
+            fontSize: "clamp(34px,5vw,54px)", letterSpacing: "-0.02em" }}>
+            My Workflow
+          </h2>
+        </Reveal>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px,1fr))", gap: 1,
+          background: t.line, borderRadius: 10, overflow: "hidden" }}>
+          {workflowSteps.map(({ step, title, icon: Icon, desc }, i) => (
+            <Reveal key={step} delay={i * 0.07} style={{ background: t.bgAlt, padding: 28 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+                <div className="panel" style={{ width: 40, height: 40, borderRadius: 8,
+                  borderColor: t.line, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Icon size={17} color={t.inkMid} />
+                </div>
+                <span className="font-heading" style={{ fontWeight: 800,
+                  color: t.inkSoft, fontSize: 26 }}>{step}</span>
+              </div>
+              <h4 className="font-heading" style={{ fontWeight: 700, color: t.ink, fontSize: 20, marginBottom: 10, letterSpacing: "-0.01em" }}>{title}</h4>
+              <p className="font-body" style={{ color: t.inkMid, fontSize: 14, lineHeight: 1.7 }}>{desc}</p>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── Footer (links to the other two paths, not the current one) ────────────────
 const ALL_PATHS = [
-  { to: "/triathlon", label: "Triathlon" },
-  { to: "/product", label: "Product & Career" },
-  { to: "/linkedin", label: "LinkedIn Content" },
+  { to: "/triathlon", label: "Triathlon Content" },
+  { to: "/product", label: "Career & Resume" },
+  { to: "/linkedin", label: "General Content" },
 ];
 
 export function Footer({ t }) {

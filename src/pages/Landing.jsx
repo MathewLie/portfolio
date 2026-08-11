@@ -5,17 +5,17 @@ import { Reveal, BlurText, DarkToggle, Footer } from "../components";
 const PATHS = [
   {
     to: "/triathlon",
-    label: "Triathlon",
+    label: "Triathlon Content",
     desc: "My race calendar, the countdown to what's next, and why I signed up in the first place.",
   },
   {
     to: "/product",
-    label: "Product & Career",
+    label: "Career & Resume",
     desc: "Product management background, experience, and the projects I've worked on.",
   },
   {
     to: "/linkedin",
-    label: "LinkedIn Content",
+    label: "General Content",
     desc: "The professional content I create — workflow, results, and what brands have said.",
   },
 ];
