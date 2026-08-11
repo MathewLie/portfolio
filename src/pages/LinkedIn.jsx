@@ -26,7 +26,7 @@ function Process({ t }) {
   return (
     <section style={{ padding: "20px 24px 120px" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <Reveal style={{ textAlign: "center", marginBottom: 48 }}>
+        <Reveal style={{ textAlign: "center", marginBottom: 56 }}>
           <p className="font-body" style={{ color: t.inkSoft, fontSize: 11,
             letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 14 }}>Process</p>
           <h2 className="font-heading" style={{ fontWeight: 800, color: t.ink,
@@ -61,7 +61,7 @@ function Reviews({ t }) {
   return (
     <section style={{ padding: "0 24px 140px" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <Reveal style={{ textAlign: "center", marginBottom: 48 }}>
+        <Reveal style={{ textAlign: "center", marginBottom: 56 }}>
           <p className="font-body" style={{ color: t.inkSoft, fontSize: 11,
             letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 14 }}>Testimonials</p>
           <h2 className="font-heading" style={{ fontWeight: 800,

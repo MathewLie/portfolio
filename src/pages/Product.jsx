@@ -20,7 +20,7 @@ function Experience({ t }) {
   return (
     <section style={{ padding: "20px 24px 100px" }}>
       <div style={{ maxWidth: 780, margin: "0 auto" }}>
-        <Reveal style={{ textAlign: "center", marginBottom: 44 }}>
+        <Reveal style={{ textAlign: "center", marginBottom: 56 }}>
           <p className="font-body" style={{ color: t.inkSoft, fontSize: 11,
             letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 14 }}>Background</p>
           <h2 className="font-heading" style={{ fontWeight: 800,
@@ -65,7 +65,7 @@ function Projects({ t }) {
   return (
     <section style={{ padding: "0 24px 100px" }}>
       <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-        <Reveal style={{ textAlign: "center", marginBottom: 44 }}>
+        <Reveal style={{ textAlign: "center", marginBottom: 56 }}>
           <p className="font-body" style={{ color: t.inkSoft, fontSize: 11,
             letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 14 }}>Work</p>
           <h2 className="font-heading" style={{ fontWeight: 800,

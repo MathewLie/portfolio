@@ -163,7 +163,7 @@ export function PageHero({ t, eyebrow, tagline, children }) {
         {tagline && (
           <Reveal delay={0.06}>
             <p className="font-heading" style={{ fontWeight: 700, color: t.accent,
-              fontSize: "clamp(16px,2vw,20px)", letterSpacing: "-0.01em" }}>{tagline}</p>
+              fontSize: "clamp(16px,2vw,20px)", letterSpacing: "-0.01em", marginBottom: 40 }}>{tagline}</p>
           </Reveal>
         )}
       </div>
