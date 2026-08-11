@@ -1,5 +1,35 @@
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { Bike } from "lucide-react";
 import { TopNav, PageHero, CountdownStack, PlaceholderImage, Reveal, Contact, Process, Footer } from "../components";
 import { RACES } from "../theme";
+
+// Rides across the screen as this section scrolls through the viewport, in
+// either direction — tied directly to scroll position, not a timed animation.
+function BikeScroll({ t }) {
+  const ref = useRef(null);
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+
+  const x = useTransform(scrollYProgress, [0, 1], ["-25vw", "115vw"]);
+  const rotate = useTransform(scrollYProgress, [0, 0.5, 1], [-6, 0, 6]);
+  const opacity = useTransform(scrollYProgress, [0, 0.12, 0.88, 1], [0, 1, 1, 0]);
+
+  return (
+    <section ref={ref} style={{ position: "relative", height: "48vh", minHeight: 260,
+      overflow: "hidden" }}>
+      <motion.div style={{
+        position: "absolute", top: "50%", left: 0, y: "-50%",
+        x: reduceMotion ? "42vw" : x,
+        rotate: reduceMotion ? 0 : rotate,
+        opacity: reduceMotion ? 0.5 : opacity,
+        width: "clamp(220px, 34vw, 480px)", aspectRatio: 1,
+      }}>
+        <Bike size="100%" strokeWidth={0.75} color={t.ink} style={{ display: "block" }} />
+      </motion.div>
+    </section>
+  );
+}
 
 function ClosingStatement({ t }) {
   return (
@@ -129,6 +159,7 @@ export default function Triathlon({ t, dark, setDark }) {
 
       <BrandDeals t={t} />
       <Process t={t} />
+      <BikeScroll t={t} />
       <TheStory t={t} />
       <ClosingStatement t={t} />
       <Contact t={t} />
