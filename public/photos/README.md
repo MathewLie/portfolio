@@ -6,6 +6,7 @@ these paths — nothing else needs to change once the files are here.
 | Filename | Used in | Aspect ratio | Notes |
 |---|---|---|---|
 | `hero.jpg` | `/triathlon`, under your name | 16:9 (wide) | Action shot works best — first image people see on that page, with a headline overlaid on the bottom third. |
+| `bike.jpg` | `/triathlon`, scrolling bike section right after the countdown | 3:2 (landscape) | High-quality road bike photo — this one rides across the screen as you scroll, so a clean shot with the bike as the clear subject works best (a straight-on or 3/4 angle, not too busy a background). |
 | `closing.jpg` | `/triathlon`, full-bleed statement near the bottom | 21:9 (ultra-wide) | "Keep Failing Forward." is overlaid on the bottom third — pick something with open space low in the frame so the text stays legible. |
 | `brand-1.jpg` | `/triathlon`, "Partnerships & Ads" | 9:16 (tall, reel-shaped) | Cover frame or still from an Instagram brand reel/post. |
 | `brand-2.jpg` | `/triathlon`, "Partnerships & Ads" | 9:16 (tall, reel-shaped) | Same as above — second brand slot. |
