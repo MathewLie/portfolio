@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import {
   Instagram, Linkedin, Music2, Mail,
   ExternalLink, Play, MapPin, Sun, Moon,
@@ -68,6 +68,35 @@ export function PlaceholderImage({ t, ratio = "4/5", label, radius = 6, src, sty
       )}
       {children}
     </div>
+  );
+}
+
+// A photo that rides across the screen as its section scrolls through the
+// viewport, in either direction — tied directly to scroll position, not a
+// timed animation. `direction="rtl"` enters from the right instead of the
+// left, useful for alternating rhythm when a page has more than one of these.
+export function ScrollPhoto({ t, src, label, ratio = "3/2", direction = "ltr", height = "60vh" }) {
+  const ref = useRef(null);
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+
+  const rtl = direction === "rtl";
+  const x = useTransform(scrollYProgress, [0, 1], rtl ? ["110vw", "-60vw"] : ["-60vw", "110vw"]);
+  const rotate = useTransform(scrollYProgress, [0, 0.5, 1], rtl ? [4, 0, -4] : [-4, 0, 4]);
+  const opacity = useTransform(scrollYProgress, [0, 0.12, 0.88, 1], [0, 1, 1, 0]);
+
+  return (
+    <section ref={ref} style={{ position: "relative", height, minHeight: 340, overflow: "hidden" }}>
+      <motion.div style={{
+        position: "absolute", top: "50%", left: 0, y: "-50%",
+        x: reduceMotion ? "27vw" : x,
+        rotate: reduceMotion ? 0 : rotate,
+        opacity: reduceMotion ? 0.6 : opacity,
+        width: "clamp(280px, 46vw, 680px)",
+      }}>
+        <PlaceholderImage t={t} ratio={ratio} radius={10} label={label} src={src} />
+      </motion.div>
+    </section>
   );
 }
 

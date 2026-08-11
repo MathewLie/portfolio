@@ -1,4 +1,4 @@
-import { TopNav, PageHero, Reveal, Contact, Footer } from "../components";
+import { TopNav, PageHero, ScrollPhoto, Reveal, Contact, Footer } from "../components";
 
 const experience = [
   { role: "[Job Title]", company: "[Company Name]", dates: "[Start] – [Present]",
@@ -108,6 +108,7 @@ export default function Product({ t, dark, setDark }) {
       </PageHero>
 
       <Experience t={t} />
+      <ScrollPhoto t={t} src="/photos/work.jpg" label="Add a work photo" direction="ltr" />
       <Projects t={t} />
       <Contact t={t} />
       <Footer t={t} />

@@ -1,4 +1,4 @@
-import { TopNav, PageHero, VideoCarousel, Reveal, Contact, Process, Footer } from "../components";
+import { TopNav, PageHero, VideoCarousel, ScrollPhoto, Reveal, Contact, Process, Footer } from "../components";
 import { videoData } from "../theme";
 
 function Gallery({ t, dark }) {
@@ -58,6 +58,7 @@ export default function LinkedIn({ t, dark, setDark }) {
       <TopNav t={t} dark={dark} setDark={setDark} />
       <PageHero t={t} eyebrow="Content Creator" tagline="Authentic Voice." />
       <Gallery t={t} dark={dark} />
+      <ScrollPhoto t={t} src="/photos/content.jpg" label="Add a behind-the-scenes photo" direction="ltr" />
       <Process t={t} />
       <Reviews t={t} />
       <Contact t={t} />

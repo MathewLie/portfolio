@@ -1,35 +1,5 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { TopNav, PageHero, CountdownStack, PlaceholderImage, Reveal, Contact, Process, Footer } from "../components";
+import { TopNav, PageHero, CountdownStack, PlaceholderImage, ScrollPhoto, Reveal, Contact, Process, Footer } from "../components";
 import { RACES } from "../theme";
-
-// A road bike photo that rides across the screen as this section scrolls
-// through the viewport, in either direction — tied directly to scroll
-// position, not a timed animation.
-function BikeScroll({ t }) {
-  const ref = useRef(null);
-  const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-
-  const x = useTransform(scrollYProgress, [0, 1], ["-60vw", "110vw"]);
-  const rotate = useTransform(scrollYProgress, [0, 0.5, 1], [-4, 0, 4]);
-  const opacity = useTransform(scrollYProgress, [0, 0.12, 0.88, 1], [0, 1, 1, 0]);
-
-  return (
-    <section ref={ref} style={{ position: "relative", height: "60vh", minHeight: 340,
-      overflow: "hidden" }}>
-      <motion.div style={{
-        position: "absolute", top: "50%", left: 0, y: "-50%",
-        x: reduceMotion ? "27vw" : x,
-        rotate: reduceMotion ? 0 : rotate,
-        opacity: reduceMotion ? 0.6 : opacity,
-        width: "clamp(280px, 46vw, 680px)",
-      }}>
-        <PlaceholderImage t={t} ratio="3/2" radius={10} label="Road bike" src="/photos/bike.jpg" />
-      </motion.div>
-    </section>
-  );
-}
 
 function ClosingStatement({ t }) {
   return (
@@ -157,10 +127,12 @@ export default function Triathlon({ t, dark, setDark }) {
         </Reveal>
       </PageHero>
 
-      <BikeScroll t={t} />
+      <ScrollPhoto t={t} src="/photos/swim.jpg" label="Open water swim" direction="rtl" />
+      <ScrollPhoto t={t} src="/photos/bike.webp" label="Road bike" direction="ltr" />
       <BrandDeals t={t} />
       <Process t={t} />
       <TheStory t={t} />
+      <ScrollPhoto t={t} src="/photos/run.jpg" label="Run" direction="rtl" />
       <ClosingStatement t={t} />
       <Contact t={t} />
       <Footer t={t} />

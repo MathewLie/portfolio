@@ -1,24 +1,46 @@
 # Photos needed
 
 Drop files into this folder with these exact names. The site already points at
-these paths — nothing else needs to change once the files are here.
+these paths — nothing else needs to change once the files are here. If a file
+is missing or fails to load, that section falls back to the striped
+placeholder automatically, so it's safe to add these one at a time.
+
+## `/triathlon`
 
 | Filename | Used in | Aspect ratio | Notes |
 |---|---|---|---|
-| `hero.jpg` | `/triathlon`, under your name | 16:9 (wide) | Action shot works best — first image people see on that page, with a headline overlaid on the bottom third. |
-| `bike.jpg` | `/triathlon`, scrolling bike section right after the countdown | 3:2 (landscape) | High-quality road bike photo — this one rides across the screen as you scroll, so a clean shot with the bike as the clear subject works best (a straight-on or 3/4 angle, not too busy a background). |
-| `closing.jpg` | `/triathlon`, full-bleed statement near the bottom | 21:9 (ultra-wide) | "Keep Failing Forward." is overlaid on the bottom third — pick something with open space low in the frame so the text stays legible. |
-| `brand-1.jpg` | `/triathlon`, "Partnerships & Ads" | 9:16 (tall, reel-shaped) | Cover frame or still from an Instagram brand reel/post. |
-| `brand-2.jpg` | `/triathlon`, "Partnerships & Ads" | 9:16 (tall, reel-shaped) | Same as above — second brand slot. |
-| `brand-3.jpg` | `/triathlon`, "Partnerships & Ads" | 9:16 (tall, reel-shaped) | Same as above — third brand slot. |
+| `hero.jpg` | Under your name | 16:9 (wide) | Action shot works best — first image people see on that page, with a headline overlaid on the bottom third. |
+| `swim.jpg` | Scrolling swim section | 3:2 (landscape) | Rides in from the right as you scroll. Open water or pool, whatever you actually raced in. |
+| `bike.webp` | Scrolling bike section | 3:2 (landscape) | Already added ✅. Rides in from the left as you scroll. |
+| `brand-1.jpg` | "Partnerships & Ads" | 9:16 (tall, reel-shaped) | Cover frame or still from an Instagram brand reel/post. |
+| `brand-2.jpg` | "Partnerships & Ads" | 9:16 (tall, reel-shaped) | Same as above — second brand slot. |
+| `brand-3.jpg` | "Partnerships & Ads" | 9:16 (tall, reel-shaped) | Same as above — third brand slot. |
+| `run.jpg` | Scrolling run section, right before the closing statement | 3:2 (landscape) | Rides in from the right as you scroll. A running shot works well, or just a close-up of shoes mid-stride. |
+| `closing.jpg` | Full-bleed statement near the bottom | 21:9 (ultra-wide) | "Keep Failing Forward." is overlaid on the bottom third — pick something with open space low in the frame so the text stays legible. |
 
-Save each as `.jpg` with that exact name. If you'd rather use `.png` or
-`.webp`, just tell me and I'll update the matching `src` path — they're all
-in `src/pages/Triathlon.jsx` (search for `/photos/`).
+## `/product`
 
-If a file is missing or fails to load, that section falls back to the
-striped placeholder automatically, so it's safe to add these one at a time
-rather than all at once.
+| Filename | Used in | Aspect ratio | Notes |
+|---|---|---|---|
+| `work.jpg` | Scrolling section between Experience and Projects | 3:2 (landscape) | A work/product photo — at your desk, presenting, whiteboarding, whatever represents the day-to-day. |
 
-Only need one or two brand slots for now instead of three? Tell me and I'll
-drop the extra card rather than leave it empty.
+## `/linkedin`
+
+| Filename | Used in | Aspect ratio | Notes |
+|---|---|---|---|
+| `content.jpg` | Scrolling section between the video portfolio and Process | 3:2 (landscape) | Behind-the-scenes of you filming/editing, or a still from a shoot. |
+
+---
+
+Every scrolling photo above uses the same component (`ScrollPhoto` in
+`src/components.jsx`), so the pattern is identical everywhere: the photo
+glides across the screen as its section scrolls through view, reversing
+naturally if you scroll back up.
+
+Save each as `.jpg` unless noted otherwise. If you'd rather use `.png` or a
+different `.webp`, just tell me and I'll update the matching `src` path —
+search for `/photos/` in `src/pages/Triathlon.jsx`, `Product.jsx`, or
+`LinkedIn.jsx`.
+
+Want more (or fewer) scrolling photo sections on any page? Tell me where and
+I'll add or remove the slot.
