@@ -142,7 +142,7 @@ export function TopNav({ t, dark, setDark }) {
 
 // ─── Social Row ───────────────────────────────────────────────────────────────────
 const socialLinks = [
-  { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/mattgx.li/" },
+  { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/mattli._/" },
   { icon: Linkedin,  label: "LinkedIn",  href: "https://www.linkedin.com/in/matthew-li733/" },
   { icon: Music2,    label: "TikTok",    href: "https://www.tiktok.com/@mattgx.li" },
   { icon: Mail,      label: "Email",     href: "mailto:matthewgx.li@gmail.com" },
@@ -477,7 +477,7 @@ export function Footer({ t }) {
   const location = useLocation();
   const otherPaths = ALL_PATHS.filter((p) => p.to !== location.pathname);
   const connect = [
-    ["Instagram", "https://www.instagram.com/mattgx.li/"],
+    ["Instagram", "https://www.instagram.com/mattli._/"],
     ["LinkedIn", "https://www.linkedin.com/in/matthew-li733/"],
     ["TikTok", "https://www.tiktok.com/@mattgx.li"],
     ["Email", "mailto:matthewgx.li@gmail.com"],
