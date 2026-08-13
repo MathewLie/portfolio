@@ -37,18 +37,22 @@ const PATHS = [
   },
 ];
 
-// Each sticker pops in and out on its own loop while idle, at a different
-// rate so the three on a card feel independent rather than synchronized.
-// Hovering (or focusing) the card freezes whichever one is out in place.
-const IDLE_RATES = [
-  { duration: 1.6, repeatDelay: 1.4, delay: 0 },
-  { duration: 2.2, repeatDelay: 0.8, delay: 0.5 },
-  { duration: 1.9, repeatDelay: 1.9, delay: 1.1 },
-];
+// Each sticker pops in and out on its own loop while idle. Rather than a
+// handful of shared profiles (which made same-position stickers across
+// different cards sync up), every sticker gets its own duration, start
+// delay, and pause derived from its global index with non-aligning
+// multipliers, so no two ever fall into lockstep.
+function getIdleRate(i) {
+  return {
+    duration: 1.4 + ((i * 0.53) % 1.1),
+    delay: (i * 0.71) % 2.4,
+    repeatDelay: 0.6 + ((i * 0.37) % 2.1),
+  };
+}
 
 function Sticker({ Icon, pos, rotate, hovered, rateIdx, t }) {
   const reduceMotion = useReducedMotion();
-  const rate = IDLE_RATES[rateIdx % IDLE_RATES.length];
+  const rate = getIdleRate(rateIdx);
 
   const animate = hovered
     ? { scale: 1, opacity: 1, rotate }
@@ -127,7 +131,7 @@ export default function Landing({ t, dark, setDark }) {
                 >
                   {stickers.map((s, si) => (
                     <Sticker key={si} Icon={s.Icon} pos={s.pos} rotate={s.rotate}
-                      hovered={hoveredIdx === i} rateIdx={si} t={t} />
+                      hovered={hoveredIdx === i} rateIdx={i * 3 + si} t={t} />
                   ))}
 
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
