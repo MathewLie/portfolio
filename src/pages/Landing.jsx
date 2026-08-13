@@ -65,7 +65,7 @@ function Sticker({ Icon, pos, rotate, hovered, rateIdx, t }) {
 
   return (
     <motion.div
-      initial={false}
+      initial={{ scale: 0, opacity: 0, rotate: rotate * 0.4 }}
       animate={animate}
       transition={transition}
       style={{
