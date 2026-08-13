@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Bike, Footprints, Glasses, Briefcase, FileText, GraduationCap, Camera, Video, MessageSquare } from "lucide-react";
 import { Reveal, BlurText, DarkToggle, Footer } from "../components";
 
@@ -37,14 +37,37 @@ const PATHS = [
   },
 ];
 
-function Sticker({ Icon, pos, rotate, hovered, delay, t }) {
+// Each sticker pops in and out on its own loop while idle, at a different
+// rate so the three on a card feel independent rather than synchronized.
+// Hovering (or focusing) the card freezes whichever one is out in place.
+const IDLE_RATES = [
+  { duration: 1.6, repeatDelay: 1.4, delay: 0 },
+  { duration: 2.2, repeatDelay: 0.8, delay: 0.5 },
+  { duration: 1.9, repeatDelay: 1.9, delay: 1.1 },
+];
+
+function Sticker({ Icon, pos, rotate, hovered, rateIdx, t }) {
+  const reduceMotion = useReducedMotion();
+  const rate = IDLE_RATES[rateIdx % IDLE_RATES.length];
+
+  const animate = hovered
+    ? { scale: 1, opacity: 1, rotate }
+    : reduceMotion
+      ? { scale: 0, opacity: 0, rotate: rotate * 0.4 }
+      : { scale: [0, 1, 1, 0], opacity: [0, 1, 1, 0], rotate: [rotate * 0.4, rotate, rotate, rotate * 0.4] };
+
+  const transition = hovered
+    ? { type: "spring", stiffness: 320, damping: 18 }
+    : reduceMotion
+      ? { duration: 0.2 }
+      : { duration: rate.duration, delay: rate.delay, repeat: Infinity,
+          repeatDelay: rate.repeatDelay, ease: "easeInOut", times: [0, 0.3, 0.7, 1] };
+
   return (
     <motion.div
       initial={false}
-      animate={hovered
-        ? { scale: 1, opacity: 1, rotate }
-        : { scale: 0, opacity: 0, rotate: rotate * 0.4 }}
-      transition={{ type: "spring", stiffness: 320, damping: 18, delay: hovered ? delay : 0 }}
+      animate={animate}
+      transition={transition}
       style={{
         position: "absolute", zIndex: -1, ...pos,
         width: 52, height: 52, borderRadius: "50%",
@@ -104,7 +127,7 @@ export default function Landing({ t, dark, setDark }) {
                 >
                   {stickers.map((s, si) => (
                     <Sticker key={si} Icon={s.Icon} pos={s.pos} rotate={s.rotate}
-                      hovered={hoveredIdx === i} delay={si * 0.05} t={t} />
+                      hovered={hoveredIdx === i} rateIdx={si} t={t} />
                   ))}
 
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
