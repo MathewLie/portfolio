@@ -1,4 +1,4 @@
-import { TopNav, PageHero, ScrollPhoto, Reveal, Contact, Footer } from "../components";
+import { TopNav, PageHero, PlaceholderImage, Reveal, Contact, Footer } from "../components";
 
 const experience = [
   { role: "[Job Title]", company: "[Company Name]", dates: "[Start] – [Present]",
@@ -61,6 +61,22 @@ function Experience({ t }) {
   );
 }
 
+function WorkPhoto({ t }) {
+  return (
+    <section>
+      <PlaceholderImage t={t} ratio="16/9" radius={0} label="Add a work photo" src="/photos/work">
+        <div style={{ position: "relative", padding: "40px 28px", width: "100%",
+          background: "linear-gradient(0deg, rgba(0,0,0,0.55), transparent 65%)" }}>
+          <p className="font-heading" style={{ color: "#fafafa", fontWeight: 700,
+            fontSize: "clamp(22px,4vw,42px)", lineHeight: 1.28, letterSpacing: "-0.01em" }}>
+            [Add a line about your experience — what you've built, shipped, or led.]
+          </p>
+        </div>
+      </PlaceholderImage>
+    </section>
+  );
+}
+
 function Projects({ t }) {
   return (
     <section style={{ padding: "0 24px 100px" }}>
@@ -108,7 +124,7 @@ export default function Product({ t, dark, setDark }) {
       </PageHero>
 
       <Experience t={t} />
-      <ScrollPhoto t={t} src="/photos/work" label="Add a work photo" direction="ltr" />
+      <WorkPhoto t={t} />
       <Projects t={t} />
       <Contact t={t} />
       <Footer t={t} />

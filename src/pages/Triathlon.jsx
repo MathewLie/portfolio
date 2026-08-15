@@ -153,13 +153,13 @@ export default function Triathlon({ t, dark, setDark }) {
       <PageHero t={t} eyebrow="Triathlete" tagline="Shows Up Anyway.">
         <CountdownStack t={t} races={RACES} />
 
-        <Reveal delay={0.2} style={{ maxWidth: 880, margin: "0 auto 0", padding: "0 24px" }}>
-          <PlaceholderImage t={t} ratio="16/9" radius={4} label="Race day — Double Dash, Madison MS"
-            src="/photos/hero" style={{ position: "relative" }}>
-            <div style={{ position: "relative", padding: "26px 30px", background: "linear-gradient(0deg, rgba(0,0,0,0.55), transparent 65%)",
-              width: "100%" }}>
+        <Reveal delay={0.2}>
+          <PlaceholderImage t={t} ratio="16/9" radius={0} label="Race day — Double Dash, Madison MS"
+            src="/photos/hero">
+            <div style={{ position: "relative", padding: "40px 28px", width: "100%",
+              background: "linear-gradient(0deg, rgba(0,0,0,0.55), transparent 65%)" }}>
               <p className="font-heading" style={{ color: "#fafafa", fontWeight: 700,
-                fontSize: "clamp(19px,3vw,30px)", lineHeight: 1.28, letterSpacing: "-0.01em" }}>
+                fontSize: "clamp(22px,4vw,42px)", lineHeight: 1.28, letterSpacing: "-0.01em" }}>
                 I finished my first triathlon last month.<br />Now I'm training for a 70.3.
               </p>
             </div>
@@ -167,10 +167,10 @@ export default function Triathlon({ t, dark, setDark }) {
         </Reveal>
       </PageHero>
 
-      <ScrollPhoto t={t} src="/photos/swim" label="Open water swim" direction="rtl" />
       <ScrollPhoto t={t} src="/photos/bike" label="Road bike" direction="ltr" />
       <BrandDeals t={t} />
       <Process t={t} />
+      <ScrollPhoto t={t} src="/photos/swim" label="Open water swim" direction="rtl" />
       <TheStory t={t} />
       <ScrollPhoto t={t} src="/photos/run" label="Run" direction="rtl" />
       <ClosingStatement t={t} />
