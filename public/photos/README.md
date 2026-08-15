@@ -51,6 +51,7 @@ photos — see `public/videos/brands/README.md` for those instead of here.
 
 | Base name | Used in | Aspect ratio | Notes |
 |---|---|---|---|
+| `ugc-hero` | Under your name — the big hero moment for this page, same treatment as the triathlon hero photo | 16:9 (wide) | Your own UGC-style shot, with a headline overlaid on the bottom third. |
 | `content` | Scrolling section between the video portfolio and Process | 3:2 (landscape) | Behind-the-scenes of you filming/editing, or a still from a shoot. |
 
 ---

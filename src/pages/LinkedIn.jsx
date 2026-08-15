@@ -1,4 +1,4 @@
-import { TopNav, PageHero, VideoCarousel, ScrollPhoto, Reveal, Contact, Process, Footer } from "../components";
+import { TopNav, PageHero, VideoCarousel, ScrollPhoto, PlaceholderImage, Reveal, Contact, Process, Footer } from "../components";
 import { videoData } from "../theme";
 
 function Gallery({ t, dark }) {
@@ -56,7 +56,20 @@ export default function LinkedIn({ t, dark, setDark }) {
   return (
     <div>
       <TopNav t={t} dark={dark} setDark={setDark} />
-      <PageHero t={t} eyebrow="Content Creator" tagline="Authentic Voice." />
+      <PageHero t={t} eyebrow="Content Creator" tagline="Authentic Voice.">
+        <Reveal delay={0.2} style={{ maxWidth: 880, margin: "0 auto 0", padding: "0 24px" }}>
+          <PlaceholderImage t={t} ratio="16/9" radius={4} label="UGC hero — add your LinkedIn photo"
+            src="/photos/ugc-hero" style={{ position: "relative" }}>
+            <div style={{ position: "relative", padding: "26px 30px", background: "linear-gradient(0deg, rgba(0,0,0,0.55), transparent 65%)",
+              width: "100%" }}>
+              <p className="font-heading" style={{ color: "#fafafa", fontWeight: 700,
+                fontSize: "clamp(19px,3vw,30px)", lineHeight: 1.28, letterSpacing: "-0.01em" }}>
+                [Add a line about your content style — what makes your UGC different.]
+              </p>
+            </div>
+          </PlaceholderImage>
+        </Reveal>
+      </PageHero>
       <Gallery t={t} dark={dark} />
       <ScrollPhoto t={t} src="/photos/content" label="Add a behind-the-scenes photo" direction="ltr" />
       <Process t={t} />
