@@ -64,7 +64,7 @@ export const videoData = {
       views: "25K", impressions: "25K", engagement: "1.5%", likes: "323",
       description: "Tips for interns to succeed in their work environment.",
       link: "https://www.linkedin.com/feed/update/urn:li:activity:7349059863555031045/" },
-    { file: "videos/profdev/LinkedinSilence.mov", title: "Workplace Tips — Speaking Out",
+    { file: "videos/profdev/LinkedinSilence.mp4", title: "Workplace Tips — Speaking Out",
       views: "3.5K", impressions: "3.5K", engagement: "2.9%", likes: "72",
       description: "Tips for interns to stand out in their work environment.",
       link: "https://www.linkedin.com/feed/update/urn:li:activity:7351241773987360769/" },

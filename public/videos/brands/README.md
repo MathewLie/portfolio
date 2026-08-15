@@ -21,6 +21,9 @@ placeholder automatically — safe to add these one at a time.
    `brand-1.mp4` (or 2/3).
 3. If your file isn't already `.mp4`, tell me the format it's in and I'll
    update the matching path in `src/pages/Triathlon.jsx`.
+4. Before dropping it in, run it through `scripts/compress-video.sh` (see
+   `public/videos/README.md`) — phone video is often 50-70MB uncompressed,
+   which is heavy for a website and can hit GitHub's file size limits.
 
 Only have one or two brand videos ready instead of three? Tell me and I'll
 drop the extra card rather than leave it empty.
