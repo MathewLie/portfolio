@@ -108,7 +108,7 @@ export default function Product({ t, dark, setDark }) {
       </PageHero>
 
       <Experience t={t} />
-      <ScrollPhoto t={t} src="/photos/work.jpg" label="Add a work photo" direction="ltr" />
+      <ScrollPhoto t={t} src="/photos/work" label="Add a work photo" direction="ltr" />
       <Projects t={t} />
       <Contact t={t} />
       <Footer t={t} />

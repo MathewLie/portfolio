@@ -7,7 +7,7 @@ function ClosingStatement({ t }) {
   return (
     <section>
       <PlaceholderImage t={t} ratio="21/9" radius={0} label="Finish line — Double Dash, Madison MS"
-        src="/photos/closing.jpg">
+        src="/photos/closing">
         <div style={{ position: "relative", padding: "40px 28px", width: "100%",
           background: "linear-gradient(0deg, rgba(0,0,0,0.6), transparent 70%)",
           display: "flex", justifyContent: "center" }}>
@@ -155,7 +155,7 @@ export default function Triathlon({ t, dark, setDark }) {
 
         <Reveal delay={0.2} style={{ maxWidth: 880, margin: "0 auto 0", padding: "0 24px" }}>
           <PlaceholderImage t={t} ratio="16/9" radius={4} label="Race day — Double Dash, Madison MS"
-            src="/photos/hero.jpg" style={{ position: "relative" }}>
+            src="/photos/hero" style={{ position: "relative" }}>
             <div style={{ position: "relative", padding: "26px 30px", background: "linear-gradient(0deg, rgba(0,0,0,0.55), transparent 65%)",
               width: "100%" }}>
               <p className="font-heading" style={{ color: "#fafafa", fontWeight: 700,
@@ -167,12 +167,12 @@ export default function Triathlon({ t, dark, setDark }) {
         </Reveal>
       </PageHero>
 
-      <ScrollPhoto t={t} src="/photos/swim.jpg" label="Open water swim" direction="rtl" />
-      <ScrollPhoto t={t} src="/photos/bike.webp" label="Road bike" direction="ltr" />
+      <ScrollPhoto t={t} src="/photos/swim" label="Open water swim" direction="rtl" />
+      <ScrollPhoto t={t} src="/photos/bike" label="Road bike" direction="ltr" />
       <BrandDeals t={t} />
       <Process t={t} />
       <TheStory t={t} />
-      <ScrollPhoto t={t} src="/photos/run.jpg" label="Run" direction="rtl" />
+      <ScrollPhoto t={t} src="/photos/run" label="Run" direction="rtl" />
       <ClosingStatement t={t} />
       <Contact t={t} />
       <Footer t={t} />

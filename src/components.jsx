@@ -37,11 +37,37 @@ export function Reveal({ children, delay = 0, style = {} }) {
   );
 }
 
-// Stand-in for a real photo. Pass a `src` once photography is ready — layout and
-// sizing won't need to change. Falls back to the placeholder if the file is missing.
-export function PlaceholderImage({ t, ratio = "4/5", label, radius = 6, src, style = {}, children }) {
+// Web-renderable formats only — HEIC isn't included because no browser
+// displays it in an <img>, no matter what it's named. Convert those first.
+const IMAGE_EXTENSIONS = ["jpg", "jpeg", "png", "webp"];
+
+function hasExtension(path) {
+  return path.split("/").pop().includes(".");
+}
+
+// Stand-in for a real photo. Pass `src` as either a full filename
+// ("/photos/hero.jpg") or, to accept whichever format ends up in the folder,
+// just the base name with no extension ("/photos/hero") — it'll try
+// .jpg/.jpeg/.png/.webp in order and use whichever one actually exists.
+// Falls back to the striped placeholder if none of them do.
+export function PlaceholderImage(props) {
+  // Keyed by src so a changed src remounts with fresh state instead of
+  // needing an effect to manually reset the fallback progress.
+  return <PlaceholderImageForSrc key={props.src} {...props} />;
+}
+
+function PlaceholderImageForSrc({ t, ratio = "4/5", label, radius = 6, src, style = {}, children }) {
+  const candidates = !src ? [] : hasExtension(src) ? [src] : IMAGE_EXTENSIONS.map((ext) => `${src}.${ext}`);
+  const [candidateIdx, setCandidateIdx] = useState(0);
   const [failed, setFailed] = useState(false);
-  const showPlaceholder = !src || failed;
+
+  const currentSrc = candidates[candidateIdx];
+  const showPlaceholder = !currentSrc || failed;
+
+  const handleError = () => {
+    if (candidateIdx < candidates.length - 1) setCandidateIdx((i) => i + 1);
+    else setFailed(true);
+  };
 
   return (
     <div style={{
@@ -49,10 +75,9 @@ export function PlaceholderImage({ t, ratio = "4/5", label, radius = 6, src, sty
       background: t.placeholderBg, overflow: "hidden", borderRadius: radius,
       display: "flex", alignItems: "flex-end", ...style,
     }}>
-      {src && (
-        <img src={src} alt={label || ""} onError={() => setFailed(true)}
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%",
-            objectFit: "cover", display: failed ? "none" : "block" }} />
+      {currentSrc && !failed && (
+        <img key={currentSrc} src={currentSrc} alt={label || ""} onError={handleError}
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
       )}
       {showPlaceholder && (
         <div style={{
