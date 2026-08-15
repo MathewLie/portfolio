@@ -1,3 +1,5 @@
+import { useRef, useState } from "react";
+import { Play } from "lucide-react";
 import { TopNav, PageHero, CountdownStack, PlaceholderImage, ScrollPhoto, Reveal, Contact, Process, Footer } from "../components";
 import { RACES } from "../theme";
 
@@ -20,13 +22,64 @@ function ClosingStatement({ t }) {
 }
 
 const brandDeals = [
-  { brand: "[Brand Name]", file: "brand-1.jpg",
+  { brand: "[Brand Name]", file: "/videos/brands/brand-1.mp4",
     desc: "[What the partnership was — the product, the post, and the result if you have one.]" },
-  { brand: "[Brand Name]", file: "brand-2.jpg",
+  { brand: "[Brand Name]", file: "/videos/brands/brand-2.mp4",
     desc: "[What the partnership was — the product, the post, and the result if you have one.]" },
-  { brand: "[Brand Name]", file: "brand-3.jpg",
+  { brand: "[Brand Name]", file: "/videos/brands/brand-3.mp4",
     desc: "[What the partnership was — the product, the post, and the result if you have one.]" },
 ];
+
+function BrandVideoCard({ t, brand, file, desc }) {
+  const videoRef = useRef(null);
+  const [playing, setPlaying] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  return (
+    <div className="panel" style={{ borderRadius: 10, overflow: "hidden",
+      background: t.bgAlt, borderColor: t.line, height: "100%" }}>
+      <div style={{ padding: "22px 24px 0" }}>
+        <p className="font-body" style={{ color: t.inkSoft, fontSize: 10,
+          letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 6 }}>Instagram</p>
+        <h3 className="font-heading" style={{ fontWeight: 700, color: t.ink, fontSize: 18, letterSpacing: "-0.01em" }}>
+          {brand}
+        </h3>
+      </div>
+
+      <div style={{ position: "relative", aspectRatio: "9/16", margin: "16px 24px 0",
+        borderRadius: 6, overflow: "hidden", background: t.placeholderBg }}>
+        {!failed && (
+          <video ref={videoRef} src={file} loop muted playsInline className="video-el"
+            onError={() => setFailed(true)} />
+        )}
+        {failed && (
+          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "flex-end" }}>
+            <div style={{ position: "absolute", inset: 0,
+              backgroundImage: `repeating-linear-gradient(135deg, ${t.line} 0px, ${t.line} 1px, transparent 1px, transparent 15px)` }} />
+            <span className="font-body" style={{ position: "relative", margin: 16, fontSize: 11,
+              letterSpacing: "0.08em", textTransform: "uppercase", color: t.placeholderText }}>
+              Reel or post
+            </span>
+          </div>
+        )}
+        {!failed && !playing && (
+          <div onClick={() => { videoRef.current?.play(); setPlaying(true); }}
+            style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center",
+              justifyContent: "center", background: "rgba(0,0,0,0.18)", cursor: "pointer" }}>
+            <div className="panel" style={{ width: 54, height: 54, borderRadius: "50%",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              background: t.bg, borderColor: t.line }}>
+              <Play size={19} color={t.ink} fill={t.ink} style={{ marginLeft: 3 }} />
+            </div>
+          </div>
+        )}
+      </div>
+
+      <p className="font-body" style={{ color: t.inkMid, fontSize: 13, lineHeight: 1.65,
+        padding: "16px 24px 22px" }}>{desc}</p>
+    </div>
+  );
+}
 
 function BrandDeals({ t }) {
   return (
@@ -44,20 +97,7 @@ function BrandDeals({ t }) {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px,1fr))", gap: 20 }}>
           {brandDeals.map((d, i) => (
             <Reveal key={i} delay={i * 0.07}>
-              <div className="panel" style={{ borderRadius: 10, overflow: "hidden",
-                background: t.bgAlt, borderColor: t.line, height: "100%" }}>
-                <div style={{ padding: "22px 24px 0" }}>
-                  <p className="font-body" style={{ color: t.inkSoft, fontSize: 10,
-                    letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 6 }}>Instagram</p>
-                  <h3 className="font-heading" style={{ fontWeight: 700, color: t.ink, fontSize: 18, letterSpacing: "-0.01em" }}>
-                    {d.brand}
-                  </h3>
-                </div>
-                <PlaceholderImage t={t} ratio="9/16" radius={6} label="Reel or post"
-                  src={`/photos/${d.file}`} style={{ margin: "16px 24px 0" }} />
-                <p className="font-body" style={{ color: t.inkMid, fontSize: 13, lineHeight: 1.65,
-                  padding: "16px 24px 22px" }}>{d.desc}</p>
-              </div>
+              <BrandVideoCard t={t} brand={d.brand} file={d.file} desc={d.desc} />
             </Reveal>
           ))}
         </div>

@@ -12,11 +12,11 @@ placeholder automatically, so it's safe to add these one at a time.
 | `hero.jpg` | Under your name | 16:9 (wide) | Action shot works best — first image people see on that page, with a headline overlaid on the bottom third. |
 | `swim.jpg` | Scrolling swim section | 3:2 (landscape) | Rides in from the right as you scroll. Open water or pool, whatever you actually raced in. |
 | `bike.webp` | Scrolling bike section | 3:2 (landscape) | Already added ✅. Rides in from the left as you scroll. |
-| `brand-1.jpg` | "Partnerships & Ads" | 9:16 (tall, reel-shaped) | Cover frame or still from an Instagram brand reel/post. |
-| `brand-2.jpg` | "Partnerships & Ads" | 9:16 (tall, reel-shaped) | Same as above — second brand slot. |
-| `brand-3.jpg` | "Partnerships & Ads" | 9:16 (tall, reel-shaped) | Same as above — third brand slot. |
 | `run.jpg` | Scrolling run section, right before the closing statement | 3:2 (landscape) | Rides in from the right as you scroll. A running shot works well, or just a close-up of shoes mid-stride. |
 | `closing.jpg` | Full-bleed statement near the bottom | 21:9 (ultra-wide) | "Keep Failing Forward." is overlaid on the bottom third — pick something with open space low in the frame so the text stays legible. |
+
+The three "Partnerships & Ads" slots on `/triathlon` moved to actual video —
+see `public/videos/brands/README.md` for those instead of here.
 
 ## `/product`
 
