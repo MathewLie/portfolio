@@ -10,14 +10,14 @@ const experience = [
 ];
 
 const projects = [
-  { name: "New Device Launch", tag: "0→1 · Hardware · Retail",
-    desc: "Designed the pricing structure, rep incentive program, and store rollout plan for a pilot device partnership at C Spire, taking it from concept to a live multi-store test." },
-  { name: "Uplift-U Scheduling Platform", tag: "Healthcare · Product Strategy",
-    desc: "Defined the spec for a streamlined appointment system at UpLift, projecting a 50% cut in manual scheduling time for telehealth services reaching 350,000+ students." },
-  { name: "Product Space", tag: "Leadership · Community",
-    desc: "Restructured the organization end to end and built 7 workshops on product strategy and UX, running 15 events including designathons with industry leaders." },
-  { name: "Kafka Messaging Platform", tag: "Engineering · Data Infra",
+  { name: "New Device Launch", company: "C Spire",
+    desc: "Designed the pricing structure, rep incentive program, and store rollout plan for a pilot device partnership, taking it from concept to a live multi-store test." },
+  { name: "Kafka Messaging Platform", company: "C Spire",
     desc: "Built Java and Scala microservices on Apache Kafka to track and reprocess 2.5M+ monthly customer messages, cutting developer debugging time by 60%." },
+  { name: "Uplift-U Scheduling Platform", company: "UpLift",
+    desc: "Defined the spec for a streamlined appointment system, projecting a 50% cut in manual scheduling time for telehealth services reaching 350,000+ students." },
+  { name: "Org Restructure & Workshop Series", company: "Product Space",
+    desc: "Restructured the organization end to end and built 7 workshops on product strategy and UX, running 15 events including designathons with industry leaders." },
 ];
 
 function Education({ t }) {
@@ -97,7 +97,7 @@ function WorkPhoto({ t }) {
           background: "linear-gradient(0deg, rgba(0,0,0,0.55), transparent 65%)" }}>
           <p className="font-heading" style={{ color: "#fafafa", fontWeight: 700,
             fontSize: "clamp(22px,4vw,42px)", lineHeight: 1.28, letterSpacing: "-0.01em" }}>
-            [Add a line about your experience — what you've built, shipped, or led.]
+            Keep Failing Forward.
           </p>
         </div>
       </PlaceholderImage>
@@ -108,7 +108,7 @@ function WorkPhoto({ t }) {
 function Projects({ t }) {
   return (
     <section style={{ padding: "0 24px 100px" }}>
-      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+      <div style={{ maxWidth: 780, margin: "0 auto" }}>
         <Reveal style={{ textAlign: "center", marginBottom: 56 }}>
           <p className="font-body" style={{ color: t.inkSoft, fontSize: 11,
             letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 14 }}>Work</p>
@@ -118,20 +118,20 @@ function Projects({ t }) {
           </h2>
         </Reveal>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px,1fr))", gap: 20 }}>
-          {projects.map((p, i) => (
-            <Reveal key={i} delay={i * 0.07}>
-              <div className="panel" style={{ borderRadius: 10, padding: 28, height: "100%",
-                background: t.bgAlt, borderColor: t.line }}>
-                <p className="font-body" style={{ color: t.inkSoft, fontSize: 10,
-                  letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 10 }}>{p.tag}</p>
+        <Reveal delay={0.1}>
+          <div className="panel" style={{ borderRadius: 10, padding: "8px 0", background: t.bgAlt, borderColor: t.line }}>
+            {projects.map((p, i) => (
+              <div key={i} style={{ padding: "28px 40px",
+                borderBottom: i < projects.length - 1 ? `1px solid ${t.line}` : "none" }}>
+                <p className="font-body" style={{ color: t.inkSoft, fontSize: 11,
+                  letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 6 }}>{p.company}</p>
                 <h3 className="font-heading" style={{ fontWeight: 700, color: t.ink, fontSize: 19,
-                  letterSpacing: "-0.01em", marginBottom: 10 }}>{p.name}</h3>
-                <p className="font-body" style={{ color: t.inkMid, fontSize: 14, lineHeight: 1.7 }}>{p.desc}</p>
+                  letterSpacing: "-0.01em", marginBottom: 8 }}>{p.name}</h3>
+                <p className="font-body" style={{ color: t.inkMid, fontSize: 15, lineHeight: 1.7 }}>{p.desc}</p>
               </div>
-            </Reveal>
-          ))}
-        </div>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -170,16 +170,23 @@ export default function Product({ t, dark, setDark }) {
 
       <PageHero t={t} eyebrow="Product Manager" tagline="Product Thinking.">
         <Reveal delay={0.06} style={{ maxWidth: 620, margin: "0 auto", padding: "0 24px 20px" }}>
+          <p className="font-body" style={{ color: t.inkMid, fontSize: 17, lineHeight: 1.75, marginBottom: 16 }}>
+            I started as a software engineer at C Spire, building Kafka pipelines and microservices
+            that handled millions of customer messages a month. That's where I learned what's
+            actually hard to build and what breaks under real usage.
+          </p>
           <p className="font-body" style={{ color: t.inkMid, fontSize: 17, lineHeight: 1.75 }}>
-            [A few lines on your product management background, the kind of problems you like
-            working on, and what you're looking for next — replace this with your real intro.]
+            That background is why I moved into product. I write the PRDs, run the customer
+            interviews, and own the roadmap now, but I still know exactly what I'm asking an
+            engineering team to do when I hand them a spec. I'm looking for product roles where
+            having built the thing first still matters.
           </p>
         </Reveal>
       </PageHero>
 
+      <WorkPhoto t={t} />
       <Education t={t} />
       <Experience t={t} />
-      <WorkPhoto t={t} />
       <Projects t={t} />
       <Skills t={t} />
       <Contact t={t} />
