@@ -112,7 +112,7 @@ export default function Landing({ t, dark, setDark }) {
           <Reveal delay={0.1}>
             <p className="font-body" style={{ color: t.inkMid, fontSize: 17, lineHeight: 1.6,
               maxWidth: 520, margin: "0 auto 56px" }}>
-              Three different reasons you might be here. Pick the one that's yours.
+              Choose your own adventure :)
             </p>
           </Reveal>
 
