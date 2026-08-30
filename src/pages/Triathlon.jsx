@@ -22,12 +22,12 @@ function ClosingStatement({ t }) {
 }
 
 const brandDeals = [
-  { brand: "[Brand Name]", file: "/videos/brands/brand-1.mp4",
-    desc: "[What the partnership was — the product, the post, and the result if you have one.]" },
-  { brand: "[Brand Name]", file: "/videos/brands/brand-2.mp4",
-    desc: "[What the partnership was — the product, the post, and the result if you have one.]" },
-  { brand: "[Brand Name]", file: "/videos/brands/brand-3.mp4",
-    desc: "[What the partnership was — the product, the post, and the result if you have one.]" },
+  { brand: "Coros Pace 4 - Demo", file: "/videos/brands/brand-1.mp4",
+    desc: "Showcasing the unboxing process of the Coros Pace 4 and what people can use it for." },
+  { brand: "Osmo Action 4 - Demo", file: "/videos/brands/brand-2.mp4",
+    desc: "Showcasing the unboxing process of the DJI Osmo Action 4, plus a look at related gear: the DJI Osmo Pocket 4 and DJI Mic Minis." },
+  { brand: "My Viral Triathlon Video", file: "/videos/brands/brand-3.mp4",
+    desc: "Where it all started. This one hit 250K views and brought in around 3,000 new followers." },
 ];
 
 function BrandVideoCard({ t, brand, file, desc }) {

@@ -57,7 +57,7 @@ export default function LinkedIn({ t, dark, setDark }) {
     <div>
       <TopNav t={t} dark={dark} setDark={setDark} />
       <PageHero t={t} eyebrow="Content Creator">
-        <Reveal delay={0.2}>
+        <Reveal delay={0.2} style={{ marginTop: 56 }}>
           <PlaceholderImage t={t} ratio="16/9" radius={0} label="UGC hero — add your LinkedIn photo"
             src="/photos/ugc-hero">
             <div style={{ position: "relative", padding: "40px 28px", width: "100%",
