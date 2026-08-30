@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, Bike, Footprints, Glasses, Briefcase, FileText, GraduationCap, Camera, Video, MessageSquare } from "lucide-react";
+import { ArrowUpRight, Coffee, Bike, Footprints, Glasses, Briefcase, FileText, GraduationCap, Camera, Video, MessageSquare } from "lucide-react";
 import { Reveal, BlurText, DarkToggle, Footer } from "../components";
 
 const PATHS = [
@@ -147,10 +147,17 @@ export default function Landing({ t, dark, setDark }) {
             ))}
           </div>
 
-          <Reveal delay={0.4}>
-            <p className="font-body" style={{ color: t.inkSoft, fontSize: 13, marginTop: 40 }}>
-              Or just say hello — <a href="mailto:matthewgx.li@gmail.com" style={{ color: t.inkMid }}>matthewgx.li@gmail.com</a>
-            </p>
+          <Reveal delay={0.4} style={{ marginTop: 40 }}>
+            <a href="https://calendly.com/matthewli73303" target="_blank" rel="noopener noreferrer"
+              className="font-body panel"
+              style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "14px 28px",
+                borderRadius: 999, color: t.ink, textDecoration: "none", fontSize: 14, fontWeight: 600,
+                background: t.bgAlt, borderColor: t.line, transition: "border-color 0.25s" }}
+              onMouseEnter={e => (e.currentTarget.style.borderColor = t.ink)}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = t.line)}
+            >
+              <Coffee size={16} /> Schedule a Coffee Chat
+            </a>
           </Reveal>
         </div>
       </div>
