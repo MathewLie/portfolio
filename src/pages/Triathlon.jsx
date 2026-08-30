@@ -150,7 +150,7 @@ export default function Triathlon({ t, dark, setDark }) {
     <div>
       <TopNav t={t} dark={dark} setDark={setDark} />
 
-      <PageHero t={t} eyebrow="Triathlete" tagline="Shows Up Anyway.">
+      <PageHero t={t} eyebrow="Triathlete">
         <CountdownStack t={t} races={RACES} />
 
         <Reveal delay={0.2}>

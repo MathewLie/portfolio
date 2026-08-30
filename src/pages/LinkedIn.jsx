@@ -56,7 +56,7 @@ export default function LinkedIn({ t, dark, setDark }) {
   return (
     <div>
       <TopNav t={t} dark={dark} setDark={setDark} />
-      <PageHero t={t} eyebrow="Content Creator" tagline="Authentic Voice.">
+      <PageHero t={t} eyebrow="Content Creator">
         <Reveal delay={0.2}>
           <PlaceholderImage t={t} ratio="16/9" radius={0} label="UGC hero — add your LinkedIn photo"
             src="/photos/ugc-hero">
@@ -64,7 +64,7 @@ export default function LinkedIn({ t, dark, setDark }) {
               background: "linear-gradient(0deg, rgba(0,0,0,0.55), transparent 65%)" }}>
               <p className="font-heading" style={{ color: "#fafafa", fontWeight: 700,
                 fontSize: "clamp(22px,4vw,42px)", lineHeight: 1.28, letterSpacing: "-0.01em" }}>
-                [Add a line about your content style — what makes your UGC different.]
+                Here to help you chase your dreams.<br />Fail forward with me.
               </p>
             </div>
           </PlaceholderImage>
