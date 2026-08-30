@@ -225,7 +225,8 @@ export function PageHero({ t, eyebrow, tagline, children, showStats = true, soci
 
       {children}
 
-      <div style={{ maxWidth: 780, margin: "0 auto", padding: "40px 24px 100px", textAlign: "center" }}>
+      <div style={{ maxWidth: 780, margin: "0 auto",
+        padding: showStats ? "40px 24px 100px" : "16px 24px 100px", textAlign: "center" }}>
         {showStats && (
           <Reveal delay={0.1}>
             <p className="font-body" style={{ color: t.inkMid, fontSize: 16, lineHeight: 1.7,

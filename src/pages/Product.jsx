@@ -190,7 +190,7 @@ export default function Product({ t, dark, setDark }) {
     <div>
       <TopNav t={t} dark={dark} setDark={setDark} />
 
-      <PageHero t={t} eyebrow="Product Manager" tagline="Product Thinking."
+      <PageHero t={t} eyebrow="Product Manager"
         showStats={false} socials={["LinkedIn", "Email"]} />
 
       <WorkPhoto t={t} />
