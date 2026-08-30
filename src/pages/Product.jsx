@@ -20,23 +20,45 @@ const projects = [
     desc: "Restructured the organization end to end and built 7 workshops on product strategy and UX, running 15 events including designathons with industry leaders." },
 ];
 
+const relevantCourses = [
+  "Data Structures & Algorithms", "UX Design", "Human-Computer Interaction",
+  "Machine Learning", "Business Analytics with AI", "Databases",
+];
+
 function Education({ t }) {
   return (
-    <section style={{ padding: "0 24px 20px" }}>
+    <section style={{ padding: "72px 24px 20px" }}>
       <div style={{ maxWidth: 780, margin: "0 auto" }}>
-        <Reveal>
-          <div className="panel" style={{ borderRadius: 10, padding: "24px 32px",
-            background: t.bgAlt, borderColor: t.line, display: "flex",
-            alignItems: "baseline", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-            <div>
-              <p className="font-heading" style={{ fontWeight: 700, color: t.ink, fontSize: 17, letterSpacing: "-0.01em" }}>
-                University of Florida
-              </p>
-              <p className="font-body" style={{ color: t.inkMid, fontSize: 14, marginTop: 4 }}>
-                B.S. Computer Science · Certificates in AI &amp; Project Management · GPA 3.83/4.00
-              </p>
+        <Reveal style={{ textAlign: "center", marginBottom: 56 }}>
+          <p className="font-body" style={{ color: t.inkSoft, fontSize: 11,
+            letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 14 }}>Academics</p>
+          <h2 className="font-heading" style={{ fontWeight: 800,
+            fontSize: "clamp(34px,5vw,54px)", color: t.ink, letterSpacing: "-0.02em" }}>
+            Education
+          </h2>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <div className="panel" style={{ borderRadius: 10, padding: "28px 32px",
+            background: t.bgAlt, borderColor: t.line }}>
+            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between",
+              flexWrap: "wrap", gap: 8 }}>
+              <div>
+                <p className="font-heading" style={{ fontWeight: 700, color: t.ink, fontSize: 17, letterSpacing: "-0.01em" }}>
+                  University of Florida
+                </p>
+                <p className="font-body" style={{ color: t.inkMid, fontSize: 14, marginTop: 4 }}>
+                  B.S. Computer Science · Certificates in AI &amp; Project Management · GPA 3.83/4.00
+                </p>
+              </div>
+              <p className="font-body" style={{ color: t.inkSoft, fontSize: 12, letterSpacing: "0.05em" }}>May 2026</p>
             </div>
-            <p className="font-body" style={{ color: t.inkSoft, fontSize: 12, letterSpacing: "0.05em" }}>May 2026</p>
+
+            <div style={{ borderTop: `1px solid ${t.line}`, marginTop: 20, paddingTop: 16 }}>
+              <span className="font-body" style={{ color: t.inkSoft, fontSize: 11,
+                letterSpacing: "0.1em", textTransform: "uppercase", marginRight: 12 }}>Relevant Courses</span>
+              <span className="font-body" style={{ color: t.inkMid, fontSize: 14 }}>{relevantCourses.join(" · ")}</span>
+            </div>
           </div>
         </Reveal>
       </div>
@@ -97,7 +119,7 @@ function WorkPhoto({ t }) {
           background: "linear-gradient(0deg, rgba(0,0,0,0.55), transparent 65%)" }}>
           <p className="font-heading" style={{ color: "#fafafa", fontWeight: 700,
             fontSize: "clamp(22px,4vw,42px)", lineHeight: 1.28, letterSpacing: "-0.01em" }}>
-            Keep Failing Forward.
+            Pitched to the C-suite.<br />Won the room.
           </p>
         </div>
       </PlaceholderImage>
@@ -170,16 +192,8 @@ export default function Product({ t, dark, setDark }) {
 
       <PageHero t={t} eyebrow="Product Manager" tagline="Product Thinking.">
         <Reveal delay={0.06} style={{ maxWidth: 620, margin: "0 auto", padding: "0 24px 20px" }}>
-          <p className="font-body" style={{ color: t.inkMid, fontSize: 17, lineHeight: 1.75, marginBottom: 16 }}>
-            I started as a software engineer at C Spire, building Kafka pipelines and microservices
-            that handled millions of customer messages a month. That's where I learned what's
-            actually hard to build and what breaks under real usage.
-          </p>
           <p className="font-body" style={{ color: t.inkMid, fontSize: 17, lineHeight: 1.75 }}>
-            That background is why I moved into product. I write the PRDs, run the customer
-            interviews, and own the roadmap now, but I still know exactly what I'm asking an
-            engineering team to do when I hand them a spec. I'm looking for product roles where
-            having built the thing first still matters.
+            I started in software development, but realized I could do more in product. I love it.
           </p>
         </Reveal>
       </PageHero>
