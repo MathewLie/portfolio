@@ -1,20 +1,48 @@
 import { TopNav, PageHero, PlaceholderImage, Reveal, Contact, Footer } from "../components";
 
 const experience = [
-  { role: "[Job Title]", company: "[Company Name]", dates: "[Start] – [Present]",
-    desc: "[One or two lines on scope and impact — what you owned, what shipped, what moved.]" },
-  { role: "[Job Title]", company: "[Company Name]", dates: "[Start] – [End]",
-    desc: "[One or two lines on scope and impact — what you owned, what shipped, what moved.]" },
+  { role: "Associate Product Manager", company: "C Spire", dates: "June 2025 – Present",
+    desc: "Brought a new device to market through a pilot partnership, owning pricing, rep incentives, and the store rollout plan for a live multi-store test. Led customer and stakeholder interviews that shaped the roadmap for new mobile plan offerings." },
+  { role: "Product Manager Intern", company: "UpLift", dates: "Sept 2024 – Feb 2025",
+    desc: "Authored the PRD for Uplift-U's TAO Connect integration and defined a scheduling flow that cut the customer journey from 9 steps to 4, serving 350,000+ students across 6 universities." },
+  { role: "Software Engineer Intern", company: "C Spire", dates: "2023 – 2024 (2 summers)",
+    desc: "Built Kafka-based logging and messaging microservices in Java and Scala handling 2.5M+ monthly customer communications, cutting debugging time 60% and API response times 59%." },
 ];
 
 const projects = [
-  { name: "[Project Name]", tag: "[0→1 / Growth / B2C]",
-    desc: "[What the project was, your role in it, and the outcome.]" },
-  { name: "[Project Name]", tag: "[0→1 / Growth / B2C]",
-    desc: "[What the project was, your role in it, and the outcome.]" },
-  { name: "[Project Name]", tag: "[0→1 / Growth / B2C]",
-    desc: "[What the project was, your role in it, and the outcome.]" },
+  { name: "New Device Launch", tag: "0→1 · Hardware · Retail",
+    desc: "Designed the pricing structure, rep incentive program, and store rollout plan for a pilot device partnership at C Spire, taking it from concept to a live multi-store test." },
+  { name: "Uplift-U Scheduling Platform", tag: "Healthcare · Product Strategy",
+    desc: "Defined the spec for a streamlined appointment system at UpLift, projecting a 50% cut in manual scheduling time for telehealth services reaching 350,000+ students." },
+  { name: "Product Space", tag: "Leadership · Community",
+    desc: "Restructured the organization end to end and built 7 workshops on product strategy and UX, running 15 events including designathons with industry leaders." },
+  { name: "Kafka Messaging Platform", tag: "Engineering · Data Infra",
+    desc: "Built Java and Scala microservices on Apache Kafka to track and reprocess 2.5M+ monthly customer messages, cutting developer debugging time by 60%." },
 ];
+
+function Education({ t }) {
+  return (
+    <section style={{ padding: "0 24px 20px" }}>
+      <div style={{ maxWidth: 780, margin: "0 auto" }}>
+        <Reveal>
+          <div className="panel" style={{ borderRadius: 10, padding: "24px 32px",
+            background: t.bgAlt, borderColor: t.line, display: "flex",
+            alignItems: "baseline", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+            <div>
+              <p className="font-heading" style={{ fontWeight: 700, color: t.ink, fontSize: 17, letterSpacing: "-0.01em" }}>
+                University of Florida
+              </p>
+              <p className="font-body" style={{ color: t.inkMid, fontSize: 14, marginTop: 4 }}>
+                B.S. Computer Science · Certificates in AI &amp; Project Management · GPA 3.83/4.00
+              </p>
+            </div>
+            <p className="font-body" style={{ color: t.inkSoft, fontSize: 12, letterSpacing: "0.05em" }}>May 2026</p>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
 
 function Experience({ t }) {
   return (
@@ -53,7 +81,7 @@ function Experience({ t }) {
               borderRadius: 999, color: t.inkMid, textDecoration: "none", fontSize: 14, fontWeight: 500,
               background: t.bgAlt, borderColor: t.line }}
           >
-            Resume (add PDF at /resume.pdf)
+            Download Resume (PDF)
           </a>
         </Reveal>
       </div>
@@ -109,6 +137,32 @@ function Projects({ t }) {
   );
 }
 
+const skillGroups = [
+  { label: "Languages", items: ["Java", "C++", "Python", "Scala", "SQL"] },
+  { label: "Tools", items: ["Linear", "Trello", "JIRA", "Figma", "Miro", "Kafka", "Oracle", "Git", "Spring", "Pandas", "NumPy", "Grafana", "TensorFlow", "Keras", "PyTorch"] },
+];
+
+function Skills({ t }) {
+  return (
+    <section style={{ padding: "0 24px 100px" }}>
+      <div style={{ maxWidth: 780, margin: "0 auto" }}>
+        <Reveal>
+          <div className="panel" style={{ borderRadius: 10, padding: "28px 32px",
+            background: t.bgAlt, borderColor: t.line, display: "flex", flexDirection: "column", gap: 14 }}>
+            {skillGroups.map(({ label, items }) => (
+              <div key={label}>
+                <span className="font-body" style={{ color: t.inkSoft, fontSize: 11,
+                  letterSpacing: "0.14em", textTransform: "uppercase", marginRight: 12 }}>{label}</span>
+                <span className="font-body" style={{ color: t.inkMid, fontSize: 14 }}>{items.join(" · ")}</span>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 export default function Product({ t, dark, setDark }) {
   return (
     <div>
@@ -123,9 +177,11 @@ export default function Product({ t, dark, setDark }) {
         </Reveal>
       </PageHero>
 
+      <Education t={t} />
       <Experience t={t} />
       <WorkPhoto t={t} />
       <Projects t={t} />
+      <Skills t={t} />
       <Contact t={t} />
       <Footer t={t} />
     </div>
