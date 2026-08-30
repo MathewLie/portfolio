@@ -190,13 +190,8 @@ export default function Product({ t, dark, setDark }) {
     <div>
       <TopNav t={t} dark={dark} setDark={setDark} />
 
-      <PageHero t={t} eyebrow="Product Manager" tagline="Product Thinking.">
-        <Reveal delay={0.06} style={{ maxWidth: 620, margin: "0 auto", padding: "0 24px 20px" }}>
-          <p className="font-body" style={{ color: t.inkMid, fontSize: 17, lineHeight: 1.75 }}>
-            I started in software development, but realized I could do more in product. I love it.
-          </p>
-        </Reveal>
-      </PageHero>
+      <PageHero t={t} eyebrow="Product Manager" tagline="Product Thinking."
+        showStats={false} socials={["LinkedIn", "Email"]} />
 
       <WorkPhoto t={t} />
       <Education t={t} />

@@ -173,10 +173,11 @@ const socialLinks = [
   { icon: Mail,      label: "Email",     href: "mailto:matthewgx.li@gmail.com" },
 ];
 
-export function SocialRow({ t }) {
+export function SocialRow({ t, only }) {
+  const links = only ? socialLinks.filter((s) => only.includes(s.label)) : socialLinks;
   return (
     <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
-      {socialLinks.map(({ icon: Icon, label, href }) => (
+      {links.map(({ icon: Icon, label, href }) => (
         <a key={label} href={href} target="_blank" rel="noopener noreferrer"
           className="font-body panel"
           style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 24px",
@@ -194,7 +195,7 @@ export function SocialRow({ t }) {
 }
 
 // ─── Page Hero (shared shell, per-page eyebrow/tagline/content) ────────────────
-export function PageHero({ t, eyebrow, tagline, children }) {
+export function PageHero({ t, eyebrow, tagline, children, showStats = true, socials }) {
   return (
     <section style={{ paddingTop: 140, position: "relative", overflow: "hidden" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px", textAlign: "center" }}>
@@ -225,13 +226,15 @@ export function PageHero({ t, eyebrow, tagline, children }) {
       {children}
 
       <div style={{ maxWidth: 780, margin: "0 auto", padding: "40px 24px 100px", textAlign: "center" }}>
-        <Reveal delay={0.1}>
-          <p className="font-body" style={{ color: t.inkMid, fontSize: 16, lineHeight: 1.7,
-            marginBottom: 34 }}>
-            5K+ Followers &nbsp;·&nbsp; LinkedIn 4K+ &nbsp;·&nbsp; CS @ University of Florida
-          </p>
-        </Reveal>
-        <Reveal delay={0.16}><SocialRow t={t} /></Reveal>
+        {showStats && (
+          <Reveal delay={0.1}>
+            <p className="font-body" style={{ color: t.inkMid, fontSize: 16, lineHeight: 1.7,
+              marginBottom: 34 }}>
+              5K+ Followers &nbsp;·&nbsp; LinkedIn 4K+ &nbsp;·&nbsp; CS @ University of Florida
+            </p>
+          </Reveal>
+        )}
+        <Reveal delay={0.16}><SocialRow t={t} only={socials} /></Reveal>
       </div>
     </section>
   );
