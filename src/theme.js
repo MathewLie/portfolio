@@ -37,27 +37,6 @@ export const THEMES = {
   },
 };
 
-export const RACES = {
-  sprint: {
-    label: "Next Up",
-    name: "Hub City Hustle Triathlon",
-    type: "Sprint Triathlon",
-    location: "Sumrall, Mississippi",
-    date: new Date("2026-10-18T07:00:00-05:00"),
-    dateLabel: "Oct 18, 2026",
-    link: "https://www.trisignup.com/Race/MS/Oloh/HubCityHustleTriathlon",
-  },
-  half: {
-    label: "The Long Game",
-    name: "IRONMAN 70.3",
-    type: "Florida",
-    location: "Haines City, Florida",
-    date: new Date("2026-12-13T07:00:00-05:00"),
-    dateLabel: "Dec 13, 2026",
-    link: "https://www.ironman.com/races/im703-florida",
-  },
-};
-
 export const videoData = {
   profdev: [
     { file: "videos/profdev/LinkedInZoom.mp4",    title: "Workplace Tips — Zoom Out",

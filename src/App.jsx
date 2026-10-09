@@ -1,11 +1,12 @@
-import { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { THEMES } from "./theme";
-import Landing from "./pages/Landing";
-import Triathlon from "./pages/Triathlon";
-import Product from "./pages/Product";
+import { metaFor } from "./routes";
+import Home from "./pages/Home";
+import Portfolio from "./pages/Portfolio";
 import LinkedIn from "./pages/LinkedIn";
+import NotFound from "./pages/NotFound";
 
 const globalStyles = `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -26,7 +27,71 @@ const globalStyles = `
   }
 
   .video-el { width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* Race timeline: the runner slides along the track while the figure bounces */
+  .race-runner { transform: translateX(-50%); transition: left 2.6s cubic-bezier(0.22, 1, 0.36, 1); }
+  .race-fill { transition: width 2.6s cubic-bezier(0.22, 1, 0.36, 1); }
+  .race-track .runner-bob { animation: runner-bob 0.28s ease-in-out infinite; }
+  .race-track .speed-line { animation: speed-line 0.56s linear infinite; }
+  @keyframes runner-bob { 0%, 100% { transform: translateY(-2.5px); } 50% { transform: translateY(0); } }
+  @keyframes speed-line { 0% { opacity: 0; transform: translateX(4px); } 40% { opacity: 0.8; } 100% { opacity: 0; transform: translateX(-5px); } }
+  @media (prefers-reduced-motion: reduce) {
+    .race-track .runner-bob, .race-track .speed-line { animation: none; }
+    .race-runner, .race-fill { transition: none; }
+  }
+
+  /* Nav and footer */
+  .site-nav { gap: 18px; }
+  .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; }
+
+  /* Homepage grids. Phone layout first, wider layouts below. */
+  .stat-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .stat-grid > :first-child { grid-column: 1 / -1; }
+  .audience-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .audience-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .tile-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .tile-grid > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .reel-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; max-width: 420px; margin: 0 auto; }
+
+  @media (max-width: 400px) {
+    .site-nav { gap: 12px; }
+  }
+  @media (max-width: 640px) {
+    .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  }
+  @media (min-width: 760px) {
+    .audience-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .audience-tiles { grid-template-columns: minmax(0, 1fr); }
+    .tile-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .tile-grid > :last-child:nth-child(odd) { grid-column: auto; }
+    .reel-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: none; }
+  }
+  @media (min-width: 900px) {
+    .stat-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .stat-grid > :first-child { grid-column: auto; }
+  }
 `;
+
+// Keeps the tab title and description right when you move between pages
+// without a reload. The prerendered HTML already has the right ones for a fresh load.
+function RouteEffects() {
+  const { pathname, hash } = useLocation();
+  const first = useRef(true);
+
+  useEffect(() => {
+    const meta = metaFor(pathname);
+    document.title = meta.title;
+    document.querySelector('meta[name="description"]')?.setAttribute("content", meta.description);
+  }, [pathname]);
+
+  // New page, start at the top (skipped on first load and for #anchor links).
+  useEffect(() => {
+    if (first.current) { first.current = false; return; }
+    if (!hash) window.scrollTo({ top: 0, behavior: "instant" });
+  }, [pathname, hash]);
+
+  return null;
+}
 
 export default function App() {
   const [dark, setDark] = useState(false);
@@ -34,18 +99,17 @@ export default function App() {
   const pageProps = { t, dark, setDark };
 
   return (
-    <BrowserRouter>
-      <motion.div initial={false} animate={{ backgroundColor: t.bg }} transition={{ duration: 0.45 }}
-        style={{ minHeight: "100vh", overflowX: "hidden", width: "100vw" }}>
-        <style dangerouslySetInnerHTML={{ __html: globalStyles }} />
+    <motion.div initial={false} animate={{ backgroundColor: t.bg }} transition={{ duration: 0.45 }}
+      style={{ minHeight: "100vh", overflowX: "hidden", width: "100vw" }}>
+      <style dangerouslySetInnerHTML={{ __html: globalStyles }} />
+      <RouteEffects />
 
-        <Routes>
-          <Route path="/" element={<Landing {...pageProps} />} />
-          <Route path="/triathlon" element={<Triathlon {...pageProps} />} />
-          <Route path="/product" element={<Product {...pageProps} />} />
-          <Route path="/linkedin" element={<LinkedIn {...pageProps} />} />
-        </Routes>
-      </motion.div>
-    </BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home {...pageProps} />} />
+        <Route path="/portfolio" element={<Portfolio {...pageProps} />} />
+        <Route path="/linkedin" element={<LinkedIn {...pageProps} />} />
+        <Route path="*" element={<NotFound {...pageProps} />} />
+      </Routes>
+    </motion.div>
   );
 }

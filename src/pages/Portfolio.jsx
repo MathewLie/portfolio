@@ -185,7 +185,7 @@ function Skills({ t }) {
   );
 }
 
-export default function Product({ t, dark, setDark }) {
+export default function Portfolio({ t, dark, setDark }) {
   return (
     <div>
       <TopNav t={t} dark={dark} setDark={setDark} />
@@ -198,7 +198,7 @@ export default function Product({ t, dark, setDark }) {
       <Experience t={t} />
       <Projects t={t} />
       <Skills t={t} />
-      <Contact t={t} />
+      <Contact t={t} coffeeChat />
       <Footer t={t} />
     </div>
   );
